@@ -4,7 +4,7 @@ This repository contains the frontend code for the PWNCore CTF platform, utilizi
 
 ## Table of Contents
 
-- [PWNCore Frontend](#pwncore-frontend)
+- [PWNCore Frontend](#c0d-frontend)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -25,8 +25,8 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository (or a fork of the repository):
 
    ```bash
-   git clone https://github.com/lugvitc/pwncore-frontend.git
-   cd pwncore-frontend
+   git clone https://github.com/lugvitc/c0d-frontend.git
+   cd c0d-frontend
    ```
 
 2. Install project dependencies:
