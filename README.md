@@ -1,10 +1,10 @@
-# PWNCore Frontend
+# C0D Frontend
 
-This repository contains the frontend code for the PWNCore CTF platform, utilizing the T3 stack with Next.js and React. This README will guide you through setting up and using the frontend.
+This repository contains the frontend code for the C0D CTF platform, utilizing the T3 stack with Next.js and React. This README will guide you through setting up and using the frontend.
 
 ## Table of Contents
 
-- [PWNCore Frontend](#c0d-frontend)
+- [C0D Frontend](#c0d-frontend)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -70,7 +70,7 @@ Storybook is used for developing and testing UI components in isolation. To get 
 
 ## Contributing
 
-To contribute to the PWNCore Frontend, please follow these steps:
+To contribute to the C0D Frontend, please follow these steps:
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/your-feature`)
