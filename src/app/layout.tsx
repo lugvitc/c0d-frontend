@@ -2,10 +2,9 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-import { env } from "~/env";
 
 export const metadata: Metadata = {
-  title: env.NEXT_PUBLIC_EVENT_NAME,
+  title: "Cyber-0-Day",
   description: "A CTF Event",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
