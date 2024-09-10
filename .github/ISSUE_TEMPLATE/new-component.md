@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Description**
+## Description
 Concise description of what the component is for and any extra technical details. Also include changes of the element in different states (such as on hover, lighter background).
 Include relevant images from the concept UI.
 
@@ -15,7 +15,7 @@ ex: Create inputbox component which takes the hint as parameter. Extend HTMLInpu
 
 NOTE: Use **storybook** to preview your component. Ideally **do not create pages** to test your component. If you do make on, remember to **delete the page before pushing**. Refer src/components/text.tsx and src/stories/text.stories.tsx for examples.
 
-*Variants* (only if the component has variations)
+### Variants (only if the component has variations)
 ex:
 Primary
 (image)
