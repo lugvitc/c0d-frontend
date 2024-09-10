@@ -15,6 +15,9 @@ ex: Create inputbox component which takes the hint as parameter. Extend HTMLInpu
 
 NOTE: Use **storybook** to preview your component. Ideally **do not create pages** to test your component. If you do make on, remember to **delete the page before pushing**. Refer src/components/text.tsx and src/stories/text.stories.tsx for examples.
 
+### Reference
+Image to page where the component is
+(ex: for the input box it could be image of Sign In page)
 ### Variants (only if the component has variations)
 ex:
 Primary
