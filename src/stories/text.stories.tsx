@@ -1,14 +1,40 @@
-import React from "react";
-import type { StoryFn, Meta } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import Text from "~/components/text";
 
-export default {
+const meta: Meta<typeof Text> = {
   title: "Text",
   component: Text,
-} as Meta;
+  argTypes: {
+    variant: {
+      options: ["primary", "secondary"],
+      control: {
+        type: "select",
+      },
+    },
+    glow: {
+      options: ["primary", "secondary"],
+      control: {
+        type: "select",
+      },
+    },
+  }
+};
 
-function Template(): JSX.Element {
-  return <Text>Hello world</Text>;
-}
+export default meta;
+type Story = StoryObj<typeof Text>;
 
-export const Default = Template.bind({}) as StoryFn;
+export const Primary: Story = {
+  args: {
+    variant: "primary",
+    glow: "primary",
+    children: "Hello world",
+  }
+};
+
+export const Secondary: Story = {
+  args: {
+    variant: "secondary",
+    glow: "secondary",
+    children: "Hello world",
+  }
+};
