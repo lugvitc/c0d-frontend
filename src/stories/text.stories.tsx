@@ -12,7 +12,7 @@ const meta: Meta<typeof Text> = {
       },
     },
     glow: {
-      options: ["primary", "secondary"],
+      options: ["none", "primary", "secondary"],
       control: {
         type: "select",
       },
@@ -35,6 +35,22 @@ export const Secondary: Story = {
   args: {
     variant: "secondary",
     glow: "secondary",
+    children: "Hello world",
+  },
+};
+
+export const PrimaryNoGlow: Story = {
+  args: {
+    variant: "primary",
+    glow: "none",
+    children: "Hello world",
+  },
+};
+
+export const SecondaryNoGlow: Story = {
+  args: {
+    variant: "secondary",
+    glow: "none",
     children: "Hello world",
   },
 };

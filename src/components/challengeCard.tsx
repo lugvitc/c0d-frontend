@@ -27,19 +27,19 @@ const ChallengeCard: React.FC<{
       >
         <div className="flex flex-col">
           <BsNut size={52} className="rotate-90" />
-          <Text className="text-2xl font-bold mt-4 mb-2" variant="secondary" glow="no_glow">
+          <Text className="text-2xl font-bold mt-4 mb-2" variant="secondary" glow="none">
             {title}
           </Text>
-          <Text className="text-sm" variant="secondary" glow="no_glow">
+          <Text className="text-sm" variant="secondary" glow="none">
             {type}
           </Text>
-          <Text className="text-xl font-bold mt-2" variant="secondary" glow="no_glow">
+          <Text className="text-xl font-bold mt-2" variant="secondary" glow="none">
             {points} {difficulty}
           </Text>
-          <Text className="text-lg mt-4" variant="secondary" glow="no_glow">
+          <Text className="text-lg mt-4" variant="secondary" glow="none">
             {description}
           </Text>
-          <Text className="text-sm font-bold mt-4" variant="secondary" glow="no_glow">
+          <Text className="text-sm font-bold mt-4" variant="secondary" glow="none">
             SOLVED TIMES {solves}
           </Text>
         </div>
