@@ -17,9 +17,6 @@ const meta: Meta<typeof Button> = {
         type: "select",
       },
     },
-    href: {
-      control: "text",
-    },
     className: {
       control: "text",
     },
@@ -36,7 +33,6 @@ export const Primary: Story = {
   args: {
     variant: "primary",
     text: "REGISTER",
-    href: "https://google.com"
   },
 };
 
@@ -44,7 +40,6 @@ export const Secondary: Story = {
   args: {
     variant: "secondary",
     text: "SIGN UP",
-    href: "https://github.com"
   },
 };
 
