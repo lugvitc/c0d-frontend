@@ -9,6 +9,7 @@ const textVariants = cva("font-orbitron", {
       secondary: "text-[#6E6E6E]",
     },
     glow: {
+      none: "",
       primary:
         "[text-shadow:_0_0_10px_#FF0000,0_0_20px_#FF0000,0_0_30px_#FF0000]",
       secondary:
@@ -32,7 +33,7 @@ export function Text(
     children,
     className,
     variant = "primary",
-    glow = "primary",
+    glow = "none",
     ...other
   }: TextProps,
   ref: React.Ref<HTMLDivElement>,
