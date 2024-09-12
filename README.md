@@ -51,10 +51,10 @@ Storybook is used for developing and testing UI components in isolation. To get 
    ```
 
 2. **View Storybook**:
-   
+
    Open your browser and navigate to [http://localhost:6006](http://localhost:6006) to view the Storybook interface.
 
-4. **Writing Stories**:
+3. **Writing Stories**:
 
    Look at `src/components/text.tsx` and `src/stories/text.stories.tsx` to get an idea of how to write stories for your own components.
 
@@ -75,10 +75,10 @@ To contribute to the C0D Frontend, please follow these steps:
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/your-feature`)
 3. To view/test changes that you're making, utilize storybook (look at [usage](#usage) -> writing stories).
-3. Make sure to run `pnpm format` & `pnpm lint` before commiting changes.
-4. Commit your changes (`git commit -m 'Add your feature'`). Make sure to use [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) messages.
-5. Push to the branch (`git push origin feature/your-feature`)
-6. Open a Pull Request
+4. Make sure to run `pnpm format` & `pnpm lint` before commiting changes.
+5. Commit your changes (`git commit -m 'Add your feature'`). Make sure to use [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) messages.
+6. Push to the branch (`git push origin feature/your-feature`)
+7. Open a Pull Request
 
 ---
 
