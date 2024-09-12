@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 
-const LinkButtonVariants = cva(
+const linkButtonVariants = cva(
   "px-6 py-3 font-orbitron text-lg font-bold rounded-[16px] transition-all",
   {
     variants: {
@@ -21,29 +21,27 @@ const LinkButtonVariants = cva(
 );
 
 export interface LinkButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof LinkButtonVariants> {
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    VariantProps<typeof linkButtonVariants> {
   className?: string;
   text?: string;
-  href: string;
 }
 
-const LinkButton = forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
-  LinkButtonProps
->(({ text, className, variant = "primary", href, ...other }, ref) => {
-  const commonProps = {
-    ref,
-    className: cn(LinkButtonVariants({ variant }), className),
-    ...other,
-  };
+const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
+  ({ text, className, variant = "primary", href, ...other }, ref) => {
+    const commonProps = {
+      ref,
+      className: cn(linkButtonVariants({ variant }), className),
+      ...other,
+    };
 
-  return (
-    <Link href={href} passHref>
-      <button {...commonProps}>{text}</button>
-    </Link>
-  );
-});
+    return (
+      <Link href={href} {...other}>
+        <span {...commonProps}>{text}</span>
+      </Link>
+    );
+  },
+);
 
 LinkButton.displayName = "LinkButton";
 

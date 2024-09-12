@@ -6,19 +6,10 @@ const meta: Meta<typeof LinkButton> = {
   component: LinkButton,
   argTypes: {
     variant: {
-      options: [
-        "primary",
-        "secondary",
-        "tertiary",
-        "ghost-primary",
-        "ghost-secondary",
-      ],
+      options: ["primary", "secondary"],
       control: {
         type: "select",
       },
-    },
-    href: {
-      control: "text",
     },
     className: {
       control: "text",
