@@ -17,7 +17,7 @@ const meta: Meta<typeof Text> = {
         type: "select",
       },
     },
-  }
+  },
 };
 
 export default meta;
@@ -28,7 +28,7 @@ export const Primary: Story = {
     variant: "primary",
     glow: "primary",
     children: "Hello world",
-  }
+  },
 };
 
 export const Secondary: Story = {
@@ -36,5 +36,5 @@ export const Secondary: Story = {
     variant: "secondary",
     glow: "secondary",
     children: "Hello world",
-  }
+  },
 };
