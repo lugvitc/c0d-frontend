@@ -13,6 +13,7 @@ const textVariants = cva("font-orbitron", {
         "[text-shadow:_0_0_10px_#FF0000,0_0_20px_#FF0000,0_0_30px_#FF0000]",
       secondary:
         "[text-shadow:_0_0_10px_#6E6E6E,0_0_20px_#6E6E6E,0_0_30px_#6E6E6E]",
+      no_glow: "text-[#D5D4D8]",
     },
   },
   defaultVariants: {
@@ -22,7 +23,7 @@ const textVariants = cva("font-orbitron", {
 
 export interface TextProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof textVariants> {
+  VariantProps<typeof textVariants> {
   className?: string;
   children?: React.ReactNode;
 }

@@ -5,12 +5,11 @@ import { BsNut } from "react-icons/bs";
 import React from "react";
 import { useState } from "react";
 
-// Reusable Text Component for challenge descriptions
+
 
 // Main Challenge Card Component
 const ChallengeCard: React.FC<{
-  title: string;
-  type: string;
+  title: string; type: string;
   description: string;
   points: number;
   difficulty: string;
@@ -20,74 +19,34 @@ const ChallengeCard: React.FC<{
   {
     return (
       <div
-        style={isHovered ? { opacity: 0.8 } : { opacity: 1 }}
+        className={`p-6 rounded-lg shadow-lg transition-opacity duration-300 cursor-pointer mb-5 ${isHovered ? "opacity-80" : "opacity-100"
+          }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{ backgroundColor: "rgba(30, 30, 33, 1)" }}
       >
-        <div style={cardStyle}>
-          <div style={contentStyle}>
-            <BsNut size={52} style={{ transform: "rotate(90deg)" }} />
-            <Text
-              variant="secondary"
-              glow="secondary"
-              style={{ fontSize: "24px", fontWeight: "bold" }}
-            >
-              <br></br>
-              {title}
-            </Text>
-            <Text
-              variant="secondary"
-              glow="secondary"
-              style={{ fontSize: "16px" }}
-            >
-              {type}
-            </Text>
-            <Text
-              variant="secondary"
-              glow="secondary"
-              style={{ fontSize: "18px", fontWeight: "bold" }}
-            >
-              <br></br>
-              {points} {difficulty}
-            </Text>
-            <Text
-              variant="secondary"
-              glow="secondary"
-              style={{ fontSize: "18px" }}
-            >
-              <br></br>
-              {description}
-            </Text>
-            <Text
-              variant="secondary"
-              glow="secondary"
-              style={{ fontSize: "16px", fontWeight: "bold" }}
-            >
-              <br></br>SOLVED TIMES {solves}
-            </Text>
-          </div>
+        <div className="flex flex-col">
+          <BsNut size={52} className="rotate-90" />
+          <Text className="text-2xl font-bold mt-4 mb-2" variant="secondary" glow="no_glow">
+            {title}
+          </Text>
+          <Text className="text-sm" variant="secondary" glow="no_glow">
+            {type}
+          </Text>
+          <Text className="text-xl font-bold mt-2" variant="secondary" glow="no_glow">
+            {points} {difficulty}
+          </Text>
+          <Text className="text-lg mt-4" variant="secondary" glow="no_glow">
+            {description}
+          </Text>
+          <Text className="text-sm font-bold mt-4" variant="secondary" glow="no_glow">
+            SOLVED TIMES {solves}
+          </Text>
         </div>
       </div>
     );
   }
 };
 
-// Styles (using inline for simplicity)
-const cardStyle: React.CSSProperties = {
-  backgroundColor: "rgba(30, 30, 33, 1)", // Semi-transparent background
-  padding: "24px",
-  borderRadius: "16px",
-  width: "520px",
-  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-  transition: "background-color 0.3s ease", // Hover effect
-  cursor: "pointer",
-  color: "#000000",
-  marginBottom: "20px",
-};
-
-const contentStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-};
 
 export default ChallengeCard;
