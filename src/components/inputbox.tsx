@@ -34,8 +34,8 @@ export const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(
           className={cn(inputBoxVariants({ variant }), className)}
           {...other}
         />
-        {hint && <span className="text-sm text-gray-400">{hint}</span>}{" "}
         {/* Display hint if provided */}
+        {hint && <span className="text-sm text-gray-400">{hint}</span>}{" "}
       </div>
     );
   },
