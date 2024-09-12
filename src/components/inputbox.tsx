@@ -7,8 +7,8 @@ const inputBoxVariants = cva(
   {
     variants: {
       variant: {
-        primary: "border-[#FF0000] text-[#FF0000] bg-transparent w-64", //red
-        secondary: "border-[#6E6E6E] text-[#6E6E6E] bg-transparent w-64", //grey
+        primary: "border-[#FF0000] text-[#FF0000] bg-transparent", //red
+        secondary: "border-[#6E6E6E] text-[#6E6E6E] bg-transparent", //grey
       },
     },
     defaultVariants: {
@@ -26,13 +26,12 @@ export interface InputBoxProps
 
 // Define the InputBox component
 export const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(
-  ({ className, hint, variant = "primary", type = "text", ...other }, ref) => {
+  ({ className, hint, variant = "primary", ...other }, ref) => {
     return (
       <div>
         <input
           ref={ref}
           className={cn(inputBoxVariants({ variant }), className)}
-          type={type} // Setting the input type, e.g., "password"
           {...other}
         />
         {hint && <span className="text-sm text-gray-400">{hint}</span>}{" "}
