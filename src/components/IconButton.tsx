@@ -4,7 +4,6 @@ import { cn } from "~/lib/utils";
 import type { IconType } from "react-icons";
 import { useRouter } from "next/router";
 
-// Define iconButtonVariants with text-shadow and filter for glow effect
 const iconButtonVariants = cva("font-orbitron flex items-center", {
   variants: {
     variant: {
