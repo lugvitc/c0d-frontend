@@ -6,7 +6,7 @@ const meta: Meta<typeof Text> = {
   component: Text,
   argTypes: {
     variant: {
-      options: ["primary", "secondary"],
+      options: ["primary", "secondary", "white", "outline", "outline-primary"],
       control: {
         type: "select",
       },
@@ -51,6 +51,30 @@ export const SecondaryNoGlow: Story = {
   args: {
     variant: "secondary",
     glow: "none",
+    children: "Hello world",
+  },
+};
+
+export const White: Story = {
+  args: {
+    variant: "white",
+    glow: "none",
+    children: "Hello world",
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    variant: "outline",
+    glow: "none",
+    children: "Hello world",
+  },
+};
+
+export const OutlinePrimaryGlow: Story = {
+  args: {
+    variant: "outline-primary",
+    glow: "primary",
     children: "Hello world",
   },
 };
