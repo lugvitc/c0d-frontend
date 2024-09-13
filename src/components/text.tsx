@@ -7,6 +7,10 @@ const textVariants = cva("font-orbitron", {
     variant: {
       primary: "text-[#FF0000]",
       secondary: "text-[#6E6E6E]",
+      white: "text-white",
+      outline: "[-webkit-text-stroke:_0.5px_#FFFFFF] text-transparent",
+      "outline-primary":
+        "[-webkit-text-stroke:_0.5px_#FF0000] text-transparent",
     },
     glow: {
       none: "",
