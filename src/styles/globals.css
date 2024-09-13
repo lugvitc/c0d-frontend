@@ -6,3 +6,7 @@
   font-family: "Orbitron";
   src: url("../../public/fonts/orbitron.ttf");
 }
+
+body {
+  background-color: #000000;
+}

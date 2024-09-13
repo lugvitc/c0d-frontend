@@ -11,11 +11,12 @@ const textVariants = cva("font-orbitron", {
       outline: "[-webkit-text-stroke:_0.5px_#FFFFFF] text-transparent",
       "outline-primary":
         "[-webkit-text-stroke:_0.5px_#FF0000] text-transparent",
+      "outline-white": "[-webkit-text-stroke:_0.5px_#FFFFFF] text-transparent",
     },
     glow: {
       none: "",
       primary:
-        "[text-shadow:_0_0_10px_#FF0000,0_0_20px_#FF0000,0_0_30px_#FF0000]",
+        "[text-shadow:0_0_100px_#FF0000,0_0_30px_#FF0000]",
       secondary:
         "[text-shadow:_0_0_10px_#6E6E6E,0_0_20px_#6E6E6E,0_0_30px_#6E6E6E]",
     },

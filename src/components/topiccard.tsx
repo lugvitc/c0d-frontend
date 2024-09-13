@@ -2,12 +2,12 @@ import { forwardRef } from "react";
 import { cn } from "~/lib/utils";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+  children: React.ReactNode;
   variant?: "regular" | "glow";
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ title, variant = "regular", className, ...other }, ref) => {
+  ({ children, variant = "regular", className, ...other }, ref) => {
     const variantClasses = {
       regular: "bg-[#1D1D1D]",
       glow: "bg-[#1D1D1D] [box-shadow:_0_0_15px_#50505088]",
@@ -23,7 +23,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           className,
         )}
       >
-        {title}
+        {children}
       </div>
     );
   },

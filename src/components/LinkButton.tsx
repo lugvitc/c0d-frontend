@@ -24,20 +24,20 @@ export interface LinkButtonProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof linkButtonVariants> {
   className?: string;
-  text?: string;
+  children?: string;
+  href: string;
 }
 
 const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
-  ({ text, className, variant = "primary", href, ...other }, ref) => {
-    const commonProps = {
-      ref,
-      className: cn(linkButtonVariants({ variant }), className),
-      ...other,
-    };
-
+  ({ children, className, variant = "primary", href, ...other }, ref) => {
     return (
-      <Link href={href} {...other}>
-        <span {...commonProps}>{text}</span>
+      <Link
+        ref={ref}
+        className={cn(linkButtonVariants({ variant }), className)}
+        href={href}
+        {...other}
+      >
+        {children}
       </Link>
     );
   },
