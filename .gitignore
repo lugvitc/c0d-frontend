@@ -45,3 +45,7 @@ yarn-error.log*
 # idea files
 .idea
 *storybook.log
+
+# chromatic
+chromatic.config.json
+
