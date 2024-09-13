@@ -4,7 +4,7 @@ import Card from "../topiccard";
 export default function Learn() {
   return (
     <section className="flex flex-col gap-24">
-      <div className="flex flex-col mx-40 gap-8">
+      <div className="mx-40 flex flex-col gap-8">
         <Text className="text-6xl font-bold" variant="primary" glow="primary">
           ENTER THE WORLD OF CYBERSECURITY
         </Text>
@@ -12,7 +12,7 @@ export default function Learn() {
           TAILOR MADE JEOPARDY-STYLE CTF AND WORKSHOPS
         </Text>
       </div>
-      <div className="flex flex-col gap-8 justify-center items-center">
+      <div className="flex flex-col items-center justify-center gap-8">
         <Text className="text-4xl font-black" variant="white">
           LEARN
         </Text>
@@ -29,7 +29,7 @@ export default function Learn() {
               </Text>
             </Card>
           </div>
-          <div className="flex gap-6 z-10">
+          <div className="z-10 flex gap-6">
             <Card className="px-28 py-14">
               <Text className="text-3xl" variant="white">
                 WEB EXPLOITATION
@@ -47,7 +47,7 @@ export default function Learn() {
             </Text>
           </Card>
         </div>
-        <Text className="text-3xl font-bold mt-12" variant="white">
+        <Text className="mt-12 text-3xl font-bold" variant="white">
           FULLY HANDS ON, WITH LIVE DEMOS AND REAL CTFS TO PRACTICE ON
         </Text>
       </div>

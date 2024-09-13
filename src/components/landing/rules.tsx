@@ -19,7 +19,11 @@ export default function Rules() {
         </Text>
         <div className="flex flex-col gap-4">
           {rules.map((rule, index) => (
-            <Text key={index} className="text-3xl font-bold" variant={index % 2 == 0 ? "white" : "secondary"}>
+            <Text
+              key={index}
+              className="text-3xl font-bold"
+              variant={index % 2 == 0 ? "white" : "secondary"}
+            >
               {rule}
             </Text>
           ))}

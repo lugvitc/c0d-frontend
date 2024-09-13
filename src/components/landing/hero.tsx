@@ -8,13 +8,13 @@ export default function Hero() {
         autoPlay
         loop
         muted
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover"
       >
         <source src="/bg.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
-      <div className="flex flex-col relative justify-center items-center z-10">
+      <div className="relative z-10 flex flex-col items-center justify-center">
         <Text className="text-4xl font-bold" variant="secondary">
           ATTACK. DEFEND. CONTENT.
         </Text>
@@ -28,7 +28,12 @@ export default function Hero() {
         >
           3.0
         </Text>
-        <Button className="relative top-[-60px] scale-125 mt-8 px-10" variant="primary">REGISTER</Button>
+        <Button
+          className="relative top-[-60px] mt-8 scale-125 px-10"
+          variant="primary"
+        >
+          REGISTER
+        </Button>
       </div>
     </section>
   );

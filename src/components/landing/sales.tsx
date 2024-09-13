@@ -17,7 +17,7 @@ export default function Sales() {
       </div>
       <div className="h-24" />
       <div className="flex w-full justify-around">
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
           <Text className="text-5xl font-bold" variant="white">
             200+
           </Text>
@@ -25,7 +25,7 @@ export default function Sales() {
             Hackers
           </Text>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
           <Text className="text-5xl font-bold" variant="primary" glow="primary">
             ₹12,000+
           </Text>
@@ -37,7 +37,7 @@ export default function Sales() {
             Prizes
           </Text>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
           <Text className="text-5xl font-bold" variant="white">
             24
           </Text>

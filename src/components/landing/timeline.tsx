@@ -1,29 +1,36 @@
 import Text from "../text";
 
-const dates = [{
-  title: "17 SEPTEMBER",
-  times: [{
-    time: "09:00 TO 10:00",
-    type: "WORKSHOP",
-    title: "LINUX BASICS + FORENSICS",
-    by: "BY SAMAR SINGH"
-  },{
-    time: "10:00 TO 11:00",
-    type: "WORKSHOP",
-    title: "WEB EXPLOITATION",
-    by: "BY GOUTHAM RAJEEV"
-  },{
-    time: "11:00 TO 12:00",
-    type: "WORKSHOP",
-    title: "BINARY EXPLOITATION",
-    by: "BY SIDDHARTH KARANAM"
-  },{
-    time: "12:00 TO 13:00",
-    type: "WORKSHOP",
-    title: "OSINT",
-    by: "BY ANUMEYA SEHGAL"
-  }]
-}];
+const dates = [
+  {
+    title: "17 SEPTEMBER",
+    times: [
+      {
+        time: "09:00 TO 10:00",
+        type: "WORKSHOP",
+        title: "LINUX BASICS + FORENSICS",
+        by: "BY SAMAR SINGH",
+      },
+      {
+        time: "10:00 TO 11:00",
+        type: "WORKSHOP",
+        title: "WEB EXPLOITATION",
+        by: "BY GOUTHAM RAJEEV",
+      },
+      {
+        time: "11:00 TO 12:00",
+        type: "WORKSHOP",
+        title: "BINARY EXPLOITATION",
+        by: "BY SIDDHARTH KARANAM",
+      },
+      {
+        time: "12:00 TO 13:00",
+        type: "WORKSHOP",
+        title: "OSINT",
+        by: "BY ANUMEYA SEHGAL",
+      },
+    ],
+  },
+];
 
 export default function Tmieline() {
   return (
@@ -39,7 +46,7 @@ export default function Tmieline() {
                 {date.title}
               </Text>
               {date.times.map((time, index) => (
-                <div key={index} className="flex flex-col gap-4 mx-16">
+                <div key={index} className="mx-16 flex flex-col gap-4">
                   <Text className="text-4xl font-bold" variant="white">
                     {time.time}
                   </Text>
