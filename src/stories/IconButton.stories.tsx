@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { IoIosArrowBack } from "react-icons/io";
 import IconButton from "~/components/IconButton";
+import { useRouter } from "next/router";
 
 const meta: Meta<typeof IconButton> = {
   title: "IconButton",
@@ -23,10 +24,22 @@ const meta: Meta<typeof IconButton> = {
 export default meta;
 type Story = StoryObj<typeof IconButton>;
 
-export const Primary: Story = {
+export const GoBackButton: Story = {
   args: {
     variant: "primary",
     icon: IoIosArrowBack,
     iconSize: 24,
+  },
+  render: (args) => {
+    const router = useRouter();
+
+    return (
+      <IconButton
+        {...args}
+        onClick={() => {
+          router.back();
+        }}
+      />
+    );
   },
 };
