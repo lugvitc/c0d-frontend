@@ -10,7 +10,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ title, variant = "regular", className, ...other }, ref) => {
     const variantClasses = {
       regular: "bg-[#1D1D1D]",
-      glow: "bg-[#1D1D1D] [box-shadow:_0_0_20px_#6E6E6E]",
+      glow: "bg-[#1D1D1D] [box-shadow:_0_0_15px_#50505088]",
     };
 
     return (
