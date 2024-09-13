@@ -2,7 +2,7 @@ import challengeCard from "~/components/challengeCard";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof challengeCard> = {
-  title: "challengeCard",
+  title: "ChallengeCard",
   component: challengeCard,
   argTypes: {
     title: {
