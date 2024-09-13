@@ -27,7 +27,7 @@ const textVariants = cva("font-orbitron", {
 
 export interface TextProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof textVariants> {
+  VariantProps<typeof textVariants> {
   className?: string;
   children?: React.ReactNode;
 }
