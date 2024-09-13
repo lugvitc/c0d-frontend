@@ -2,7 +2,7 @@ import Text from "../text";
 
 export default function Sales() {
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section id="prizes" className="flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center">
         <Text className="text-3xl font-bold" variant="outline-white">
           ONE OF

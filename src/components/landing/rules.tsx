@@ -12,7 +12,7 @@ const rules = [
 
 export default function Rules() {
   return (
-    <section className="mx-40 flex flex-col">
+    <section id="rules" className="mx-40 flex flex-col">
       <div className="flex flex-col gap-20">
         <Text className="text-6xl font-bold" variant="primary" glow="primary">
           THE RULES

@@ -12,22 +12,22 @@ export default function Navbar() {
         height={50}
       />
       <nav className="flex items-center justify-center">
-        <LinkButton href="/" variant="secondary">
+        <LinkButton href="#timeline" variant="secondary">
           TIMELINE
         </LinkButton>
-        <LinkButton href="/about" variant="secondary">
+        <LinkButton href="#rules" variant="secondary">
           RULES
         </LinkButton>
         <LinkButton href="/contact" variant="secondary">
           CHALLENGES
         </LinkButton>
-        <LinkButton href="/login" variant="secondary">
+        <LinkButton href="/leaderboard" variant="secondary">
           LEADEROARD
         </LinkButton>
-        <LinkButton href="/login" variant="secondary">
+        <LinkButton href="#prizes" variant="secondary">
           PRIZES
         </LinkButton>
-        <LinkButton href="/login" variant="primary">
+        <LinkButton href="/signin" variant="primary">
           SIGNIN
         </LinkButton>
       </nav>

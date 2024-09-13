@@ -34,7 +34,7 @@ const dates = [
 
 export default function Tmieline() {
   return (
-    <section className="mx-40 flex flex-col">
+    <section id="timeline" className="mx-40 flex flex-col">
       <div className="flex flex-col gap-20">
         <Text className="text-6xl font-bold" variant="primary" glow="primary">
           THE TIMELINE
