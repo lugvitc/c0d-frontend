@@ -37,10 +37,9 @@ const LeaderboardEntry = forwardRef<HTMLTableRowElement, LeaderboardEntryProps>(
           backgroundColor: getBackgroundColor(rank),
         }}
       >
-        <td className="rounded-l-lg px-4 py-3">{rank}</td>
-        <td className="truncate px-4 py-3">{name}</td>
-        <td className="px-4 py-3 text-center">{score}</td>
-        <td className="rounded-r-lg px-4 py-3 text-center">{solvedCount}</td>
+        <td className="rounded-l-lg px-4 py-3 text-center">{rank}</td>
+        <td className="truncate px-4 py-3 text-center">{name}</td>
+        <td className="rounded-r-lg px-4 py-3 text-center">{score}</td>
       </tr>
     );
   },
