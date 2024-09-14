@@ -9,16 +9,18 @@ const LeaderboardHeader = forwardRef<
     <thead
       ref={ref}
       className={cn(
-        "bg-[#1D1D1D] font-orbitron text-sm uppercase tracking-wider text-white",
+        "font-orbitron text-sm uppercase tracking-wider text-white",
         className,
       )}
       {...other}
     >
       <tr className="text-left">
-        <th className="w-1/6 px-4 py-3">POS</th>
-        <th className="w-1/2 px-4 py-3">Team Name</th>
-        <th className="w-1/6 px-4 py-3 text-center">Points</th>
-        <th className="w-1/6 px-4 py-3 text-center">Solved Count</th>
+        <th className="w-1/6 rounded-tl-lg bg-[#1D1D1D] px-4 py-3">POS</th>
+        <th className="w-1/2 bg-[#1D1D1D] px-4 py-3">Team Name</th>
+        <th className="w-1/6 bg-[#1D1D1D] px-4 py-3 text-center">Points</th>
+        <th className="w-1/6 rounded-tr-lg bg-[#1D1D1D] px-4 py-3 text-center">
+          Solved Count
+        </th>
       </tr>
     </thead>
   );

@@ -49,12 +49,9 @@ const LeaderboardPage: React.FC = () => {
 
       {/* Leaderboard Table */}
       <div className="w-full overflow-x-auto px-16 py-8">
-        <table className="min-w-full table-auto border-separate border-spacing-y-4">
-          {" "}
-          {/* Add vertical spacing */}
+        <table className="min-w-full border-separate border-spacing-y-2">
           {/* Leaderboard Header */}
-          <LeaderboardHeader className="rounded-t-lg" />
-          {/* Rounded top for header */}
+          <LeaderboardHeader />
           {/* Leaderboard Entries */}
           <tbody>
             {filteredData.length > 0 ? (
@@ -70,8 +67,10 @@ const LeaderboardPage: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-400">
-                  No results found for "{searchQuery}"
+                <td colSpan={4} className="p-4 text-center">
+                  <Text variant="secondary">
+                    No results found for "{searchQuery}"
+                  </Text>
                 </td>
               </tr>
             )}
