@@ -1,21 +1,31 @@
 "use client";
 import React, { useState } from "react";
-import InputBox from "../inputbox"; // Ensure correct path
-import Text from "../text"; // Ensure correct path
-import Button from "../button"; // Ensure correct path
-import LinkButton from "../LinkButton"; // Ensure correct path
+import InputBox from "../inputbox";
+import Text from "../text";
+import Button from "../button";
 import { cn } from "~/lib/utils";
 
 interface SignUpFormProps {
   className?: string;
 }
 
+interface SignUpData {
+  teamName: string;
+  password: string;
+  teamLeadRegNo: string;
+  teamMember2RegNo: string;
+  teamMember3RegNo: string;
+  count: number;
+}
+
 const SignUpForm = ({ className }: SignUpFormProps) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    registrationNumber: "",
-    email: "",
+  const [formData, setFormData] = useState<SignUpData>({
+    teamName: "",
     password: "",
+    teamLeadRegNo: "",
+    teamMember2RegNo: "",
+    teamMember3RegNo: "",
+    count: 0,
   });
 
   // Handler for input changes
@@ -31,47 +41,30 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     console.log("Form data submitted: ", formData);
   };
 
+  const handleAdd = () => {
+    if (formData.count >= 2) return;
+
+    setFormData((prev) => ({ ...prev, count: prev.count + 1 }));
+  };
+
   return (
-    <div className={cn("flex max-w-lg flex-col items-center space-y-4", className)}>
-      {/* Sign Up Header */}
+    <div
+      className={cn("flex max-w-lg flex-col items-center space-y-4", className)}
+    >
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
-        SIGN UP
+        CREATE A TEAM
       </Text>
 
-      {/* Sign Up Form */}
       <form className="flex w-full flex-col space-y-4" onSubmit={handleSubmit}>
-        {/* Name Input */}
         <InputBox
-          name="name"
-          value={formData.name}
+          name="teamName"
+          value={formData.teamName}
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Team Name"
           className="w-full"
           variant="secondary"
         />
 
-        {/* Registration Number Input */}
-        <InputBox
-          name="registrationNumber"
-          value={formData.registrationNumber}
-          onChange={handleChange}
-          placeholder="Registration Number"
-          className="w-full"
-          variant="secondary"
-        />
-
-        {/* Email Address Input */}
-        <InputBox
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email Address"
-          className="w-full"
-          variant="secondary"
-        />
-
-        {/* Password Input */}
         <InputBox
           name="password"
           type="password"
@@ -82,25 +75,50 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           variant="secondary"
         />
 
-        {/* Sign Up Button */}
-        <Button className="" type="submit" variant="secondary">
-          SIGN UP
+        <InputBox
+          name="teamLeadRegNo"
+          value={formData.teamLeadRegNo}
+          onChange={handleChange}
+          placeholder="Team Lead Reg Number"
+          className="w-full"
+          variant="secondary"
+        />
+
+        {formData.count > 0 && (
+          <InputBox
+            name={"teamMember2RegNo"}
+            value={formData.teamMember2RegNo}
+            onChange={handleChange}
+            placeholder={`Team Member 2 Reg Number`}
+            className="w-full"
+            variant="secondary"
+          />
+        )}
+
+        {formData.count > 1 && (
+          <InputBox
+            name={"teamMember3RegNo"}
+            value={formData.teamMember3RegNo}
+            onChange={handleChange}
+            placeholder={`Team Member 3 Reg Number`}
+            className="w-full"
+            variant="secondary"
+          />
+        )}
+
+        <Button
+          className="text-white"
+          type="submit"
+          variant="secondary"
+          onClick={handleAdd}
+        >
+          Add Member
+        </Button>
+
+        <Button className="text-white" type="submit" variant="secondary">
+          Create Team
         </Button>
       </form>
-
-      {/* Sign In Link */}
-      <div>
-        <Text className="inline-block text-sm" variant="secondary">
-          Already have an account?
-        </Text>
-        <LinkButton
-          className="text-sm"
-          variant="secondary"
-          href="/signin"
-        >
-          SIGN IN
-        </LinkButton>
-      </div>
     </div>
   );
 };
