@@ -1,10 +1,16 @@
+"use client";
 import React, { useState } from "react";
 import InputBox from "../inputbox"; // Ensure correct path
 import Text from "../text"; // Ensure correct path
 import Button from "../button"; // Ensure correct path
 import LinkButton from "../LinkButton"; // Ensure correct path
+import { cn } from "~/lib/utils";
 
-const SignUpForm: React.FC = () => {
+interface SignUpFormProps {
+  className?: string;
+}
+
+const SignUpForm = ({ className }: SignUpFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
     registrationNumber: "",
@@ -26,7 +32,7 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <div className="flex max-w-lg flex-col items-center space-y-4">
+    <div className={cn("flex max-w-lg flex-col items-center space-y-4", className)}>
       {/* Sign Up Header */}
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
         SIGN UP
