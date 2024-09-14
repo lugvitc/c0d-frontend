@@ -57,19 +57,19 @@ const ChallengePage: React.FC = () => {
 
         {/* Download Challenge Files Button */}
         <div className="mt-12">
-          <Button text="DOWNLOAD CHALLENGE FILES" />
+          <Button>DOWNLOAD CHALLENGE FILES</Button>
         </div>
 
         {/* Flag Submission Section */}
         <div className="mt-12 flex items-center space-x-8">
           <InputBox variant="secondary" placeholder="Flag" />
-          <Button variant="secondary" text="SUBMIT" />
+          <Button variant="secondary">SUBMIT</Button>
         </div>
       </div>
 
       {/* Right Aligned Report a Bug Button */}
       <div className="flex w-1/4 items-start justify-end p-6">
-        <Button variant="tertiary" text="REPORT A BUG" />
+        <Button variant="tertiary">REPORT A BUG</Button>
       </div>
     </div>
   );

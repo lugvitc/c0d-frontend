@@ -77,8 +77,8 @@ const SignUpForm: React.FC = () => {
         />
 
         {/* Sign Up Button */}
-        <Button className="" type="submit" variant="secondary" text="SIGN UP">
-          Sign Up
+        <Button className="" type="submit" variant="secondary">
+          SIGN UP
         </Button>
       </form>
 
@@ -90,10 +90,9 @@ const SignUpForm: React.FC = () => {
         <LinkButton
           className="text-sm"
           variant="secondary"
-          text="SIGN UP"
           href="https://github.com"
         >
-          Sign In
+          SIGN IN
         </LinkButton>
       </div>
     </div>
