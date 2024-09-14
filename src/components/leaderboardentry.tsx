@@ -6,7 +6,7 @@ export interface LeaderboardEntryProps
   rank: number;
   name: string;
   score: number;
-  solvedCount: string | number; // Allow string for custom text
+  solvedCount: string | number;
 }
 
 const backgroundColors = {
@@ -30,19 +30,17 @@ const LeaderboardEntry = forwardRef<HTMLTableRowElement, LeaderboardEntryProps>(
         ref={ref}
         {...other}
         className={cn(
-          "rounded-xl font-orbitron text-sm tracking-wider text-white transition-opacity hover:opacity-70",
+          "font-orbitron text-sm tracking-wider text-white transition-opacity hover:opacity-70",
           className,
         )}
         style={{
           backgroundColor: getBackgroundColor(rank),
-          marginBottom: "10px", // Add spacing between rows
-          borderRadius: "8px", // Rounded corners
         }}
       >
-        <td className="px-4 py-3">{rank}</td>
+        <td className="rounded-l-lg px-4 py-3">{rank}</td>
         <td className="truncate px-4 py-3">{name}</td>
         <td className="px-4 py-3 text-center">{score}</td>
-        <td className="px-4 py-3 text-center">{solvedCount}</td>
+        <td className="rounded-r-lg px-4 py-3 text-center">{solvedCount}</td>
       </tr>
     );
   },
