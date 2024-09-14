@@ -110,6 +110,11 @@ export default function ChallengesPage() {
     setChallenges(chall);
   }, []);
 
+  const setChallenge = (id: number) => {
+    localStorage.setItem("challenge", id.toString());
+    window.location.href = `/challenge`;
+  }
+
   return (
     <div className="flex flex-col justify-between p-6">
       <Navbar />
@@ -144,9 +149,7 @@ export default function ChallengesPage() {
                 points={challenge.points}
                 difficulty={challenge.difficulty}
                 solves={challenge.solves}
-                onClick={() => {
-                  window.location.href = `/challenges/${challenge.id}`;
-                }}
+                onClick={() => setChallenge(challenge.id)}
               />
             ))}
         </div>
