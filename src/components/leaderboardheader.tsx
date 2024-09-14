@@ -15,10 +15,10 @@ const LeaderboardHeader = forwardRef<
       {...other}
     >
       <tr className="text-left">
-        <th className="w-1/6 rounded-tl-lg bg-[#1D1D1D] px-4 py-3">POS</th>
+        <th className="w-1/6 rounded-l-lg bg-[#1D1D1D] px-4 py-3">POS</th>
         <th className="w-1/2 bg-[#1D1D1D] px-4 py-3">Team Name</th>
         <th className="w-1/6 bg-[#1D1D1D] px-4 py-3 text-center">Points</th>
-        <th className="w-1/6 rounded-tr-lg bg-[#1D1D1D] px-4 py-3 text-center">
+        <th className="w-1/6 rounded-r-lg bg-[#1D1D1D] px-4 py-3 text-center">
           Solved Count
         </th>
       </tr>
