@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import LinkButton from "./LinkButton";
-import Image from "~/components/Image";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
