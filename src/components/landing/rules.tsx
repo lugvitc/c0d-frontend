@@ -1,7 +1,7 @@
 import Text from "../text";
 
 const rules = [
-  "Overnight Jeopardy-style CTF",
+  "Offline Overnight Jeopardy-style CTF",
   "Categories: Web, OSINT, Binary, Reversing, Forensics, Cryptography, Miscellaneous",
   "Flag format: c0d{}",
   "Teams of upto 3 members can be formed on the day of the event",
@@ -14,7 +14,7 @@ export default function Rules() {
     <section id="rules" className="mx-10 md:mx-40 flex flex-col">
       <div className="flex flex-col gap-10 md:gap-20">
         <Text className="text-3xl md:text-3xl md:text-6xl font-bold" variant="primary" glow="primary">
-          THE RULES
+          DETAILS
         </Text>
         <div className="flex flex-col gap-4">
           {rules.map((rule, index) => (

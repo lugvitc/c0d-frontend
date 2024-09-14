@@ -2,11 +2,11 @@ import { forwardRef } from "react";
 import { cn } from "~/lib/utils";
 
 export interface LeaderboardEntryProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLTableRowElement> {
   rank: number;
   name: string;
   score: number;
-  solvedCount: number;
+  solvedCount: string | number; // Allow string for custom text
 }
 
 const backgroundColors = {
@@ -23,35 +23,27 @@ const getBackgroundColor = (rank: number) => {
   return backgroundColors.default;
 };
 
-const LeaderboardEntry = forwardRef<HTMLDivElement, LeaderboardEntryProps>(
+const LeaderboardEntry = forwardRef<HTMLTableRowElement, LeaderboardEntryProps>(
   ({ rank, name, score, solvedCount, className, ...other }, ref) => {
     return (
-      <div
+      <tr
         ref={ref}
         {...other}
         className={cn(
-          "flex items-center justify-between rounded-md p-4 transition-opacity hover:opacity-70",
+          "rounded-xl font-orbitron text-sm tracking-wider text-white transition-opacity hover:opacity-70",
           className,
         )}
-        style={{ backgroundColor: getBackgroundColor(rank) }}
+        style={{
+          backgroundColor: getBackgroundColor(rank),
+          marginBottom: "10px", // Add spacing between rows
+          borderRadius: "8px", // Rounded corners
+        }}
       >
-        {/* Rank and Player/Team Name */}
-        <div className="inline-flex w-1/2 items-center space-x-2 font-orbitron text-white">
-          <div className="mr-1">{rank}.</div>
-          <div className="w-full truncate">{name}</div>{" "}
-          {/* Truncate long names */}
-        </div>
-
-        {/* Score */}
-        <div className="w-1/6 text-center font-orbitron text-white">
-          {score}
-        </div>
-
-        {/* Solved Count */}
-        <div className="w-1/6 text-center font-orbitron text-white">
-          {solvedCount}
-        </div>
-      </div>
+        <td className="px-4 py-3">{rank}</td>
+        <td className="truncate px-4 py-3">{name}</td>
+        <td className="px-4 py-3 text-center">{score}</td>
+        <td className="px-4 py-3 text-center">{solvedCount}</td>
+      </tr>
     );
   },
 );
