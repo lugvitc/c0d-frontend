@@ -1,5 +1,5 @@
 import Text from "../text";
-import Image from "next/image";
+import Image from "~/components/Image";
 
 export default function Sponsors() {
   return (
