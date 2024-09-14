@@ -13,7 +13,7 @@ export default function Rules() {
   return (
     <section id="rules" className="mx-10 md:mx-40 flex flex-col">
       <div className="flex flex-col gap-10 md:gap-20">
-        <Text className="text-3xl md:text-3xl md:text-6xl font-bold" variant="primary" glow="primary">
+        <Text className="text-3xl md:text-6xl font-bold" variant="primary" glow="primary">
           DETAILS
         </Text>
         <div className="flex flex-col gap-4">
