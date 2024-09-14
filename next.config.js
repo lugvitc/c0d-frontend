@@ -6,8 +6,6 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  basePath: "/c0d-frontend",
-  assetPrefix:"/c0d-frontend",
   output: "export",
   reactStrictMode: true,
 };

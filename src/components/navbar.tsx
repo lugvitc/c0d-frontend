@@ -1,9 +1,9 @@
 import LinkButton from "./LinkButton";
-import Image from "~/components/Image";
+import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="sticky flex w-full items-center justify-between p-12 text-white outline-red-500">
+    <header className="sticky z-10 flex w-full items-center justify-between p-12 text-white outline-red-500">
       <Image
         className="ml-14"
         src="/logo.png"
