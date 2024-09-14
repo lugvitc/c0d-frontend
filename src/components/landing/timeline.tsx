@@ -34,31 +34,31 @@ const dates = [
 
 export default function Tmieline() {
   return (
-    <section id="timeline" className="mx-40 flex flex-col">
+    <section id="timeline" className="mx-10 md:mx-40 flex flex-col">
       <div className="flex flex-col gap-20">
-        <Text className="text-6xl font-bold" variant="primary" glow="primary">
+        <Text className="text-3xl md:text-6xl font-bold" variant="primary" glow="primary">
           THE TIMELINE
         </Text>
         <div className="flex flex-col gap-4">
           {dates.map((date, index) => (
             <div key={index} className="flex flex-col gap-20">
-              <Text className="text-5xl font-bold" variant="white">
+              <Text className="text-3xl md:text-5xl font-bold" variant="white">
                 {date.title}
               </Text>
               {date.times.map((time, index) => (
-                <div key={index} className="mx-16 flex flex-col gap-4">
-                  <Text className="text-4xl font-bold" variant="white">
+                <div key={index} className="mx-8 md:mx-16 flex flex-col gap-2 md:gap-4">
+                  <Text className="text-xl md:text-4xl font-bold" variant="white">
                     {time.time}
                   </Text>
                   <div className="flex flex-col gap-2">
-                    <Text className="text-4xl font-bold" variant="secondary">
+                    <Text className="text-xl md:text-4xl font-bold" variant="secondary">
                       {time.type}
                     </Text>
                     <div className="h-4" />
-                    <Text className="text-4xl font-bold" variant="white">
+                    <Text className="text-xl md:text-4xl font-bold" variant="white">
                       {time.title}
                     </Text>
-                    <Text className="text-4xl font-bold" variant="white">
+                    <Text className="text-xl md:text-4xl font-bold" variant="white">
                       {time.by}
                     </Text>
                   </div>
