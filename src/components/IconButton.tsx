@@ -7,7 +7,7 @@ const iconButtonVariants = cva("font-orbitron flex items-center", {
   variants: {
     variant: {
       primary:
-        "text-red-500 [text-shadow:_0_0_10px_#FF0000,0_0_20px_#FF0000,0_0_30px_#FF0000] filter drop-shadow-[0_0_10px_#FF0000]",
+        "text-red-500 [text-shadow:_0_0_10px_#FF0000,0_0_20px_#FF0000,0_0_30px_#FF0000] filter drop-shadow-[0_0_10px_#FF0000] hover:text-white transition-all",
     },
   },
   defaultVariants: {
