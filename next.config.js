@@ -5,6 +5,10 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  basePath: "/c0d-frontend",
+  output: "export",
+  reactStrictMode: true,
+};
 
 export default config;
