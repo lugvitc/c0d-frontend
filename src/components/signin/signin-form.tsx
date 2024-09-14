@@ -6,14 +6,12 @@ import Button from "../button"; // Ensure correct path
 import LinkButton from "../LinkButton"; // Ensure correct path
 import { cn } from "~/lib/utils";
 
-interface SignUpFormProps {
+interface SignInFormProps {
   className?: string;
 }
 
-const SignUpForm = ({ className }: SignUpFormProps) => {
+const SignInForm = ({ className }: SignInFormProps) => {
   const [formData, setFormData] = useState({
-    name: "",
-    registrationNumber: "",
     email: "",
     password: "",
   });
@@ -33,33 +31,13 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
 
   return (
     <div className={cn("flex max-w-lg flex-col items-center space-y-4", className)}>
-      {/* Sign Up Header */}
+      {/* Sign In Header */}
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
-        SIGN UP
+        SIGN IN
       </Text>
 
       {/* Sign Up Form */}
       <form className="flex w-full flex-col space-y-4" onSubmit={handleSubmit}>
-        {/* Name Input */}
-        <InputBox
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Name"
-          className="w-full"
-          variant="secondary"
-        />
-
-        {/* Registration Number Input */}
-        <InputBox
-          name="registrationNumber"
-          value={formData.registrationNumber}
-          onChange={handleChange}
-          placeholder="Registration Number"
-          className="w-full"
-          variant="secondary"
-        />
-
         {/* Email Address Input */}
         <InputBox
           name="email"
@@ -82,27 +60,27 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           variant="secondary"
         />
 
-        {/* Sign Up Button */}
+        {/* Sign In Button */}
         <Button className="" type="submit" variant="secondary">
-          SIGN UP
+          SIGN IN
         </Button>
       </form>
 
-      {/* Sign In Link */}
+      {/* Sign Up Link */}
       <div>
         <Text className="inline-block text-sm" variant="secondary">
-          Already have an account?
+          Don&rsquo;t have an account?
         </Text>
         <LinkButton
           className="text-sm"
           variant="secondary"
-          href="/signin"
+          href="/signup"
         >
-          SIGN IN
+          SIGN UP
         </LinkButton>
       </div>
     </div>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
