@@ -66,7 +66,7 @@ const dates = [
       },
       {
         time: "21:00",
-        type: "QUIZ",
+        type: "CTF",
         title: "ROUND 2 BEGINS",
         by: "",
       },
@@ -77,7 +77,7 @@ const dates = [
     times: [
       {
         time: "08:00",
-        type: "QUIZ",
+        type: "CTF",
         title: "ROUND 2 ENDS",
         by: "",
       },
