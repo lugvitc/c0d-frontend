@@ -20,7 +20,7 @@ const meta: Meta<typeof Button> = {
     className: {
       control: "text",
     },
-    text: {
+    children: {
       control: "text",
     },
   },
@@ -32,34 +32,34 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     variant: "primary",
-    text: "REGISTER",
+    children: "REGISTER",
   },
 };
 
 export const Secondary: Story = {
   args: {
     variant: "secondary",
-    text: "SIGN UP",
+    children: "SIGN UP",
   },
 };
 
 export const Tertiary: Story = {
   args: {
     variant: "tertiary",
-    text: "REPORT A BUG",
+    children: "REPORT A BUG",
   },
 };
 
 export const GhostPrimary: Story = {
   args: {
     variant: "ghost-primary",
-    text: "SIGN IN",
+    children: "SIGN IN",
   },
 };
 
 export const GhostSecondary: Story = {
   args: {
     variant: "ghost-secondary",
-    text: "PRIZES",
+    children: "PRIZES",
   },
 };

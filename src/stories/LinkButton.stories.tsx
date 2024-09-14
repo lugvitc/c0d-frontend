@@ -14,9 +14,9 @@ const meta: Meta<typeof LinkButton> = {
     className: {
       control: "text",
     },
-    text: {
+    children: {
       control: "text",
-    },
+    }
   },
 };
 
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof LinkButton>;
 export const Primary: Story = {
   args: {
     variant: "primary",
-    text: "REGISTER",
+    children: "REGISTER",
     href: "https://google.com",
   },
 };
@@ -34,7 +34,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     variant: "secondary",
-    text: "SIGN UP",
+    children: "SIGN UP",
     href: "https://github.com",
   },
 };
