@@ -1,13 +1,12 @@
 import Text from "../text";
 
 const rules = [
-  "The CTF will be a 24-hour Jeopardy-style CTF.",
-  "The CTF will have 5 categories: Web, OSINT, Binary, Crypto, and Forensics.",
-  "Each category will have 5 challenges of varying difficulty.",
-  "Each challenge will have a flag in the format: CYBER0DAY{flag}.",
-  "The CTF will be hosted on a platform called CTFd.",
-  "The CTF will be open to all participants.",
-  "The CTF will have a maximum of 3 members per team.",
+  "Overnight Jeopardy-style CTF",
+  "Categories: Web, OSINT, Binary, Reversing, Forensics, Cryptography, Miscellaneous",
+  "Flag format: c0d{}",
+  "Teams of upto 3 members can be formed on the day of the event",
+  "Points will be dynamic depending on number of solves",
+  "Flag sharing is not permitted (Good luck doing that ;')",
 ];
 
 export default function Rules() {
