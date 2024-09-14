@@ -17,7 +17,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
       <div className="relative z-10 flex flex-col items-center justify-center">
         <Text className="text-4xl font-bold" variant="secondary">
-          ATTACK. DEFEND. CONTENT.
+          UNCOVER. ADAPT. TRIUMPH
         </Text>
         <Text className="text-8xl font-bold" variant="white">
           CYBER-0-DAY
