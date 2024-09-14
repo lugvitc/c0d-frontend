@@ -69,7 +69,7 @@ const LeaderboardPage: React.FC = () => {
               <tr>
                 <td colSpan={4} className="p-4 text-center">
                   <Text variant="secondary">
-                    No results found for "{searchQuery}"
+                    No results found for &quot;{searchQuery}&quot;
                   </Text>
                 </td>
               </tr>
