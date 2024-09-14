@@ -20,7 +20,7 @@ const ChallengeCard: React.FC<{
       <div className="flex flex-col">
         <BsNut size={52} className="rotate-90" />
         <Text
-          className="mb-2 mt-4 text-2xl font-bold"
+          className="mb-2 mt-4 text-3xl font-bold"
           variant="white"
           glow="none"
         >
