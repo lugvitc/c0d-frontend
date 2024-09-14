@@ -1,9 +1,11 @@
+"use client"
 import Button from "../button";
 import Text from "../text";
 
-export default function Hero() {
+export default function Hero({ noVideo }: { noVideo?: boolean }) {
   return (
-    <section className="relative flex h-screen  w-full flex-col items-center justify-center overflow-hidden">
+    <section className="relative flex h-[85vh] w-full flex-col items-center justify-center overflow-hidden">
+      {!noVideo && (
       <video
         autoPlay
         loop
@@ -14,7 +16,10 @@ export default function Hero() {
         <source src="/c0d-frontend/bg.webm" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+      )}
+      {!noVideo && (
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+      )}
       <div className="relative z-10 flex flex-col items-center -mt-48">
         <Text className="text-md md:text-4xl font-bold" variant="secondary">
           UNCOVER. ADAPT. TRIUMPH
@@ -32,8 +37,11 @@ export default function Hero() {
         <Button
           className="relative top-[-20px] md:top-[-60px] mt-8 scale-125 px-10"
           variant="primary"
+          onClick={() => {
+            window.location.href = "https://chat.whatsapp.com/LeSY2rgosqXAw9qB52OlXU";
+          }}
         >
-          REGISTER
+          JOIN C0D
         </Button>
       </div>
     </section>
