@@ -74,8 +74,11 @@ const ChallengePage: React.FC = () => {
   const [status, setStatus] = useState<StatusType>("off");
 
   useEffect(() => {
-    if (!window.localStorage.getItem("token")) return;
-
+    if (!window.localStorage.getItem("token")) {
+      window.location.href = "/signin";
+      return;
+    }
+    
     const id = window.localStorage.getItem("challenge");
     void axios
       .get<
@@ -202,7 +205,7 @@ const ChallengePage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col justify-between p-6">
-      <Navbar />
+      <Navbar notLanding />
       <div className="flex min-h-screen justify-between p-6">
         <div className="flex w-3/5 gap-4 bg-transparent p-6">
           <div className="mt-2">

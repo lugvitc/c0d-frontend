@@ -11,6 +11,7 @@ import LeaderboardEntry from "~/components/leaderboardentry";
 import InputBox from "~/components/inputbox";
 import axios from "axios";
 import { BACKEND_URL } from "~/lib/constants";
+import Navbar from "~/components/navbar";
 
 // Define the interface for the leaderboard data
 interface LeaderboardData {
@@ -25,6 +26,11 @@ const LeaderboardPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!window.localStorage.getItem("token")) {
+      window.location.href = "/signin";
+      return;
+    }
+
     const fetchLeaderboardData = async () => {
       try {
         setLoading(true);
@@ -51,8 +57,9 @@ const LeaderboardPage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col space-y-8 p-8 text-white">
+      <Navbar notLanding />
       {/* Header Section */}
-      <div className="flex items-center justify-between">
+      <div className="mx-16 flex items-center justify-between">
         <Text
           className="glow-primary text-4xl font-bold text-red-500"
           glow="primary"
