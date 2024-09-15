@@ -11,7 +11,7 @@ import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
 import axios from "axios";
 
 const challengeTypes = [
-  "Miscellanious",
+  "Miscellaneous",
   "Forensics",
   "Web",
   "Binary",
