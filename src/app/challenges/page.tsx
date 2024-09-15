@@ -7,7 +7,7 @@ import Text from "~/components/text";
 import { BACKEND_URL } from "~/lib/constants";
 
 const challengeTypes = [
-  "Miscellanious",
+  "Miscellaneous",
   "Forensics",
   "Web",
   "Binary",
