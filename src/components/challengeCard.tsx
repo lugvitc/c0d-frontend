@@ -6,17 +6,16 @@ import React, { type HTMLAttributes } from "react";
 
 export interface ChallengeItem {
   title: string;
-  type: string;
+  types: string[];
   description: string;
   points: number;
-  difficulty: string;
-  solves: number;
+  // solves: number;
 }
 
 interface ChallengeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>, ChallengeItem {};
 
 // Main Challenge Card Component
-const ChallengeCard: React.FC<ChallengeProps> = ({ title, type, description, points, difficulty, solves = 0, ...other }) => {
+const ChallengeCard: React.FC<ChallengeProps> = ({ title, types, description, points, ...other }) => {
   return (
     <div
       {...other}
@@ -32,17 +31,17 @@ const ChallengeCard: React.FC<ChallengeProps> = ({ title, type, description, poi
           {title}
         </Text>
         <Text className="text-sm" variant="white" glow="none">
-          {type}
+          {types.join(', ')}
         </Text>
         <Text className="mt-2 text-xl font-bold" variant="white" glow="none">
-          {points} {difficulty}
+          {points}
         </Text>
         <Text className="mt-4 text-lg" variant="white" glow="none">
           {description}
         </Text>
-        <Text className="mt-4 text-sm font-bold" variant="white" glow="none">
+        {/* <Text className="mt-4 text-sm font-bold" variant="white" glow="none">
           SOLVED TIMES {solves}
-        </Text>
+        </Text> */}
       </div>
     </div>
   );
