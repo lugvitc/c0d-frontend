@@ -4,7 +4,7 @@ import Navbar from "~/components/navbar";
 export default function SignUpPage() {
   return (
     <div className="h-screen">
-      <Navbar />
+      <Navbar notLanding />
       <div className="flex h-3/4 items-center justify-center">
         <video
           autoPlay

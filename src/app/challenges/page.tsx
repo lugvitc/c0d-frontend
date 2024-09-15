@@ -37,7 +37,10 @@ export default function ChallengesPage() {
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
 
   useEffect(() => {
-    if (!window.localStorage.getItem("token")) return;
+    if (!window.localStorage.getItem("token")) {
+      window.location.href = "/signin";
+      return;
+    }
 
     void axios
       .get(`${BACKEND_URL}/ctf/list`, {
@@ -74,7 +77,7 @@ export default function ChallengesPage() {
 
   return (
     <div className="flex flex-col justify-between p-6">
-      <Navbar />
+      <Navbar notLanding />
       <div className="flex flex-col justify-between gap-7 p-6">
         <div className="flex justify-between">
           <Text className="text-4xl font-bold" glow="primary">

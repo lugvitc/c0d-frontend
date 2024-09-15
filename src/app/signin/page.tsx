@@ -4,7 +4,7 @@ import SignInForm from "~/components/signin/signin-form";
 export default function SignInPage() {
   return (
     <div className="h-screen">
-      <Navbar />
+      <Navbar notLanding />
       <div className="flex h-3/4 items-center justify-center">
         <video
           autoPlay

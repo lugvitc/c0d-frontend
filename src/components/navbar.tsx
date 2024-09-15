@@ -1,10 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LinkButton from "./LinkButton";
 import Image from "next/image";
 
-export default function Navbar() {
+interface NavbarProps {
+  notLanding?: boolean;
+}
+
+export default function Navbar({ notLanding = false }: NavbarProps) {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsSignedIn(!!window.localStorage.getItem("token"));
+  }, []);
+
+  const handleSign = () => {
+    if (isSignedIn) {
+      window.localStorage.removeItem("token");
+      window.location.reload();
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -55,49 +71,90 @@ export default function Navbar() {
 
       {/* Desktop Menu */}
       <nav className="hidden items-center justify-center space-x-4 md:flex">
-        <LinkButton href="#prizes" variant="secondary">
-          PRIZES
-        </LinkButton>
-        <LinkButton href="#timeline" variant="secondary">
-          TIMELINE
-        </LinkButton>
-        <LinkButton href="#rules" variant="secondary">
-          RULES
-        </LinkButton>
-        {/* <LinkButton href="#" variant="secondary">
-          CHALLENGES
-        </LinkButton>
-        <LinkButton href="#" variant="secondary">
-          LEADERBOARD
-        </LinkButton>
-        <LinkButton href="#" variant="primary">
-        </LinkButton>
-        <LinkButton href="#" variant="primary">
-          SIGNIN
-        </LinkButton> */}
+        {!notLanding && (
+          <LinkButton href="#prizes" variant="secondary">
+            PRIZES
+          </LinkButton>
+        )}
+        {!notLanding && (
+          <LinkButton href="#timeline" variant="secondary">
+            TIMELINE
+          </LinkButton>
+        )}
+        {!notLanding && (
+          <LinkButton href="#rules" variant="secondary">
+            RULES
+          </LinkButton>
+        )}
+        {notLanding && (
+          <LinkButton href="/challenges" variant="secondary">
+            CHALLENGES
+          </LinkButton>
+        )}
+        {notLanding && (
+          <LinkButton href="/leaderboard" variant="secondary">
+            LEADERBOARD
+          </LinkButton>
+        )}
+        {notLanding && (
+          <LinkButton href="/signin" variant="primary" onClick={handleSign}>
+            {isSignedIn ? "SIGNOUT" : "SIGNIN"}
+          </LinkButton>
+        )}
       </nav>
 
       {/* Mobile Menu */}
       {isOpen && (
         <nav className="absolute left-0 top-full flex w-full flex-col items-center space-y-4 bg-black py-6 text-white md:hidden">
-          <LinkButton href="#prizes" variant="secondary" onClick={toggleMenu}>
-            PRIZES
-          </LinkButton>
-          <LinkButton href="#timeline" variant="secondary" onClick={toggleMenu}>
-            TIMELINE
-          </LinkButton>
-          <LinkButton href="#rules" variant="secondary" onClick={toggleMenu}>
-            RULES
-          </LinkButton>
-          {/* <LinkButton href="#" variant="secondary" onClick={toggleMenu}>
-            CHALLENGES
-          </LinkButton>
-          <LinkButton href="#" variant="secondary" onClick={toggleMenu}>
-            LEADERBOARD
-          </LinkButton>
-          <LinkButton href="#" variant="primary" onClick={toggleMenu}>
-            SIGNIN
-          </LinkButton> */}
+          {!notLanding && (
+            <LinkButton href="#prizes" variant="secondary" onClick={toggleMenu}>
+              PRIZES
+            </LinkButton>
+          )}
+          {!notLanding && (
+            <LinkButton
+              href="#timeline"
+              variant="secondary"
+              onClick={toggleMenu}
+            >
+              TIMELINE
+            </LinkButton>
+          )}
+          {!notLanding && (
+            <LinkButton href="#rules" variant="secondary" onClick={toggleMenu}>
+              RULES
+            </LinkButton>
+          )}
+          {notLanding && (
+            <LinkButton
+              href="/challenges"
+              variant="secondary"
+              onClick={toggleMenu}
+            >
+              CHALLENGES
+            </LinkButton>
+          )}
+          {notLanding && (
+            <LinkButton
+              href="/leaderboard"
+              variant="secondary"
+              onClick={toggleMenu}
+            >
+              LEADERBOARD
+            </LinkButton>
+          )}
+          {notLanding && (
+            <LinkButton
+              href="/signin"
+              variant="primary"
+              onClick={() => {
+                handleSign();
+                toggleMenu();
+              }}
+            >
+              {isSignedIn ? "SIGNOUT" : "SIGNIN"}
+            </LinkButton>
+          )}
         </nav>
       )}
     </header>
