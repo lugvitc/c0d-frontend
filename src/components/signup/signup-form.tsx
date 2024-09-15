@@ -1,9 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputBox from "../inputbox";
 import Text from "../text";
 import Button from "../button";
 import { cn } from "~/lib/utils";
+import { BACKEND_URL } from "~/lib/constants";
+import LinkButton from "../LinkButton";
+import axios from "axios";
 
 interface SignUpFormProps {
   className?: string;
@@ -28,6 +31,14 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     count: 0,
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      window.location.href = "/challenges";
+    }
+  }, []);
+
   // Handler for input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,10 +46,25 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
   };
 
   // Handler for form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., API call, validation, etc.)
-    console.log("Form data submitted: ", formData);
+
+    const tags = [];
+
+    if (formData.teamLeadRegNo) tags.push(formData.teamLeadRegNo);
+    if (formData.teamMember2RegNo) tags.push(formData.teamMember2RegNo);
+    if (formData.teamMember3RegNo) tags.push(formData.teamMember3RegNo);
+
+    if (!formData.teamName || !formData.password || tags.length < 1) return;
+
+    const res = (await axios.post(`${BACKEND_URL}/auth/signup`, {
+      name: formData.teamName,
+      password: formData.password,
+      tags,
+    })).data as { access_token: string };
+    
+    localStorage.setItem("token", res.access_token ?? "");
+    window.location.href = "/signup";
   };
 
   const handleAdd = () => {
@@ -52,7 +78,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
       className={cn("flex max-w-lg flex-col items-center space-y-4", className)}
     >
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
-        CREATE A TEAM
+        SIGNUP
       </Text>
 
       <form className="flex w-full flex-col space-y-4" onSubmit={handleSubmit}>
@@ -118,6 +144,14 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
         <Button className="text-white" type="submit" variant="secondary">
           Create Team
         </Button>
+        <div>
+          <Text className="inline-block text-sm" variant="secondary">
+            Already have an account?
+          </Text>
+          <LinkButton className="text-sm" variant="secondary" href="/signin">
+            SIGN IN
+          </LinkButton>
+        </div>
       </form>
     </div>
   );
