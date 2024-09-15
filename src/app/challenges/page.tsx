@@ -1,9 +1,10 @@
 "use client";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import ChallengeCard, { type ChallengeItem } from "~/components/challengeCard";
 import Navbar from "~/components/navbar";
 import Text from "~/components/text";
-import axiosPrivate from "~/lib/axios/private";
+import { BACKEND_URL } from "~/lib/constants";
 
 const challengeTypes = [
   "Miscellanious",
@@ -36,32 +37,38 @@ export default function ChallengesPage() {
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) return;
+    if (!window.localStorage.getItem("token")) return;
 
-    void axiosPrivate.get("/ctf/list").then((res) => {
-      const data = res.data as {
-        id: string;
-        name: string;
-        description: string;
-        points: string;
-        author: string;
-        tags: number;
-      }[];
-      const challenges = data.map((challenge) => {
-        return {
-          id: challenge.id,
-          description: challenge.description,
-          points: challenge.points,
-          title: challenge.name,
-          types: getTypesFromMask(challenge.tags),
-        } as unknown as ChallengeData;
+    void axios
+      .get(`${BACKEND_URL}/ctf/list`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data as {
+          id: string;
+          name: string;
+          description: string;
+          points: string;
+          author: string;
+          tags: number;
+        }[];
+        const challenges = data.map((challenge) => {
+          return {
+            id: challenge.id,
+            description: challenge.description,
+            points: challenge.points,
+            title: challenge.name,
+            types: getTypesFromMask(challenge.tags),
+          } as unknown as ChallengeData;
+        });
+        setChallenges(challenges);
       });
-      setChallenges(challenges);
-    });
   }, []);
 
   const setChallenge = (id: string) => {
-    localStorage.setItem("challenge", id);
+    window.localStorage.setItem("challenge", id);
     window.location.href = `/challenge`;
   };
 

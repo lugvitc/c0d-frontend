@@ -9,7 +9,8 @@ import Text from "~/components/text";
 import LeaderboardHeader from "~/components/leaderboardheader";
 import LeaderboardEntry from "~/components/leaderboardentry";
 import InputBox from "~/components/inputbox";
-import axiosPrivate from "~/lib/axios/private";
+import axios from "axios";
+import { BACKEND_URL } from "~/lib/constants";
 
 // Define the interface for the leaderboard data
 interface LeaderboardData {
@@ -27,7 +28,11 @@ const LeaderboardPage: React.FC = () => {
     const fetchLeaderboardData = async () => {
       try {
         setLoading(true);
-        const response = await axiosPrivate.get("/leaderboard");
+        const response = await axios.get(`${BACKEND_URL}/leaderboard`, {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        });
         const data: LeaderboardData[] = response.data;
         setLeaderboardData(data);
       } catch (err: any) {
