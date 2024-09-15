@@ -1,22 +1,43 @@
 "use client";
-import React, { useState } from "react";
-import InputBox from "../inputbox"; // Ensure correct path
-import Text from "../text"; // Ensure correct path
-import Button from "../button"; // Ensure correct path
-import LinkButton from "../LinkButton"; // Ensure correct path
+import React, { useEffect, useState } from "react";
+import InputBox from "../inputbox";
+import Text from "../text";
+import Button from "../button";
 import { cn } from "~/lib/utils";
+import { BACKEND_URL } from "~/lib/constants";
+import LinkButton from "../LinkButton";
+import axios from "axios";
 
 interface SignUpFormProps {
   className?: string;
 }
 
+interface SignUpData {
+  teamName: string;
+  password: string;
+  teamLeadRegNo: string;
+  teamMember2RegNo: string;
+  teamMember3RegNo: string;
+  count: number;
+}
+
 const SignUpForm = ({ className }: SignUpFormProps) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    registrationNumber: "",
-    email: "",
+  const [formData, setFormData] = useState<SignUpData>({
+    teamName: "",
     password: "",
+    teamLeadRegNo: "",
+    teamMember2RegNo: "",
+    teamMember3RegNo: "",
+    count: 0,
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      window.location.href = "/challenges";
+    }
+  }, []);
 
   // Handler for input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,53 +46,53 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
   };
 
   // Handler for form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., API call, validation, etc.)
-    console.log("Form data submitted: ", formData);
+
+    const tags = [];
+
+    if (formData.teamLeadRegNo) tags.push(formData.teamLeadRegNo);
+    if (formData.teamMember2RegNo) tags.push(formData.teamMember2RegNo);
+    if (formData.teamMember3RegNo) tags.push(formData.teamMember3RegNo);
+
+    if (!formData.teamName || !formData.password || tags.length < 1) return;
+
+    const res = (
+      await axios.post(`${BACKEND_URL}/auth/signup`, {
+        name: formData.teamName,
+        password: formData.password,
+        tags,
+      })
+    ).data as { access_token: string };
+
+    localStorage.setItem("token", res.access_token ?? "");
+    window.location.href = "/signup";
+  };
+
+  const handleAdd = () => {
+    if (formData.count >= 2) return;
+
+    setFormData((prev) => ({ ...prev, count: prev.count + 1 }));
   };
 
   return (
-    <div className={cn("flex max-w-lg flex-col items-center space-y-4", className)}>
-      {/* Sign Up Header */}
+    <div
+      className={cn("flex max-w-lg flex-col items-center space-y-4", className)}
+    >
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
-        SIGN UP
+        SIGNUP
       </Text>
 
-      {/* Sign Up Form */}
       <form className="flex w-full flex-col space-y-4" onSubmit={handleSubmit}>
-        {/* Name Input */}
         <InputBox
-          name="name"
-          value={formData.name}
+          name="teamName"
+          value={formData.teamName}
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Team Name"
           className="w-full"
           variant="secondary"
         />
 
-        {/* Registration Number Input */}
-        <InputBox
-          name="registrationNumber"
-          value={formData.registrationNumber}
-          onChange={handleChange}
-          placeholder="Registration Number"
-          className="w-full"
-          variant="secondary"
-        />
-
-        {/* Email Address Input */}
-        <InputBox
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email Address"
-          className="w-full"
-          variant="secondary"
-        />
-
-        {/* Password Input */}
         <InputBox
           name="password"
           type="password"
@@ -82,25 +103,58 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           variant="secondary"
         />
 
-        {/* Sign Up Button */}
-        <Button className="" type="submit" variant="secondary">
-          SIGN UP
-        </Button>
-      </form>
-
-      {/* Sign In Link */}
-      <div>
-        <Text className="inline-block text-sm" variant="secondary">
-          Already have an account?
-        </Text>
-        <LinkButton
-          className="text-sm"
+        <InputBox
+          name="teamLeadRegNo"
+          value={formData.teamLeadRegNo}
+          onChange={handleChange}
+          placeholder="Team Lead Reg Number"
+          className="w-full"
           variant="secondary"
-          href="/signin"
+        />
+
+        {formData.count > 0 && (
+          <InputBox
+            name={"teamMember2RegNo"}
+            value={formData.teamMember2RegNo}
+            onChange={handleChange}
+            placeholder={`Team Member 2 Reg Number`}
+            className="w-full"
+            variant="secondary"
+          />
+        )}
+
+        {formData.count > 1 && (
+          <InputBox
+            name={"teamMember3RegNo"}
+            value={formData.teamMember3RegNo}
+            onChange={handleChange}
+            placeholder={`Team Member 3 Reg Number`}
+            className="w-full"
+            variant="secondary"
+          />
+        )}
+
+        <Button
+          className="text-white"
+          type="submit"
+          variant="secondary"
+          onClick={handleAdd}
         >
-          SIGN IN
-        </LinkButton>
-      </div>
+          Add Member
+        </Button>
+
+        <Button className="text-white" type="submit" variant="secondary">
+          Create Team
+        </Button>
+        <div>
+          <Text className="inline-block text-sm" variant="secondary">
+            Already have an account?
+          </Text>
+          <LinkButton className="text-sm" variant="secondary" href="/signin">
+            SIGN IN
+          </LinkButton>
+        </div>
+      </form>
     </div>
   );
 };

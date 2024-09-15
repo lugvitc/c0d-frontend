@@ -16,7 +16,7 @@ const meta: Meta<typeof LinkButton> = {
     },
     children: {
       control: "text",
-    }
+    },
   },
 };
 

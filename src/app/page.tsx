@@ -20,10 +20,7 @@ export default function HomePage() {
       <Rules />
       <div className="h-60" />
       <div>
-        <Text
-          className="text-center text-3xl font-bold"
-          variant="white"
-        >
+        <Text className="text-center text-3xl font-bold" variant="white">
           Don&rsquo;t miss the
           <br />
           ultimate hacking
