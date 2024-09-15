@@ -1,13 +1,150 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "~/components/IconButton";
 import Text from "~/components/text";
 import Button from "~/components/button";
 import InputBox from "~/components/inputbox";
 import { IoIosArrowBack } from "react-icons/io";
 import Navbar from "~/components/navbar";
+import axiosPrivate from "~/lib/axios/private";
+import { type ChallengeItem } from "~/components/challengeCard";
+
+const challengeTypes = [
+  "Miscellanious",
+  "Forensics",
+  "Web",
+  "Binary",
+  "Reversing",
+  "Crypto",
+  "OSINT",
+];
+
+const msgCodes = [
+  "db_error",
+  "port_limit_reached",
+  "ctf_not_found",
+  "container_start",
+  "container_stop",
+  "containers_team_stop",
+  "container_not_found",
+  "container_already_running",
+  "container_limit_reached",
+  "hint_limit_reached",
+  "team_not_found",
+  "user_not_found",
+  "ctf_solved",
+  "signup_success",
+  "wrong_password",
+  "login_success",
+  "team_exists",
+  "user_added",
+  "user_removed",
+  "user_already_in_team",
+  "user_not_in_team",
+  "insufficient_coins",
+  "user_or_email_exists",
+  "users_not_found",
+];
+
+interface ChallengeData extends ChallengeItem {
+  id: string;
+}
+
+function getTypesFromMask(mask: number) {
+  const result = [];
+
+  for (let i = 0; i < challengeTypes.length; i++) {
+    if (mask & (1 << i)) {
+      result.push(challengeTypes[i]);
+    }
+  }
+
+  return result;
+}
+
+type StatusType = "on" | "off" | "starting" | "stopping";
 
 const ChallengePage: React.FC = () => {
+  const [challenge, setChallenge] = useState<ChallengeData | null>(null);
+  const [flag, setFlag] = useState<string>("");
+  const [response, setResponse] = useState("");
+  const [status, setStatus] = useState<StatusType>("off");
+
+  useEffect(() => {
+    const id = localStorage.getItem("challenge");
+    void axiosPrivate
+      .get<
+        {
+          id: string;
+          name: string;
+          description: string;
+          points: string;
+          author: string;
+          tags: number;
+        }[]
+      >(`/ctf/${id}`)
+      .then((res) => {
+        const data = res.data[0];
+        if (!data) return;
+        const chall = {
+          id: data.id,
+          title: data.name,
+          description: data.description,
+          points: data.points,
+          types: getTypesFromMask(data.tags),
+        } as unknown as ChallengeData;
+        setChallenge(chall);
+      });
+  }, []);
+
+  const showHintResponse = (msgCode: number) => {
+    if (!(window as unknown as { debugMode: boolean }).debugMode) return;
+    setResponse(msgCodes[msgCode] ?? "");
+    setTimeout(() => {
+      setResponse("");
+    }, 2000);
+  };
+
+  const startInstance = async () => {
+    const id = localStorage.getItem("challenge");
+    const res = (
+      await axiosPrivate.post<{
+        msg_code: number;
+        ports: number[];
+        ctd_id: number[];
+      }>(`/ctf/${id}/start`)
+    ).data;
+    showHintResponse(res.msg_code);
+    if (res.msg_code === 3) setStatus("on");
+  };
+
+  const stopInstance = async () => {
+    const id = localStorage.getItem("challenge");
+    const res = await axiosPrivate.post<{
+      msg_code: number;
+    }>(`/ctf/${id}/stop`);
+    showHintResponse(res.data.msg_code);
+    if (res.data.msg_code === 4) setStatus("off");
+  };
+
+  const killAll = async () => {
+    const res = await axiosPrivate.post<{
+      msg_code: number;
+    }>("ctf/stopall");
+    showHintResponse(res.data.msg_code);
+    if (res.data.msg_code === 5) setStatus("off");
+  };
+
+  const submitFlag = async () => {
+    const id = localStorage.getItem("challenge");
+    const res = await axiosPrivate.post<{
+      msg_code: number;
+    }>(`ctf/${id}/flag`, {
+      flag
+    });
+    
+  }
+
   return (
     <div className="flex min-h-screen flex-col justify-between p-6">
       <Navbar />
@@ -21,47 +158,55 @@ const ChallengePage: React.FC = () => {
           </div>
           <div className="flex flex-col gap-10">
             <Text className="text-3xl font-bold" glow="primary">
-              CHALLENGES/CHALLENGE NAME
+              {challenge?.title.toUpperCase() ?? "Loading..."}
             </Text>
             <div className="flex flex-col gap-2">
               <Text className="text-lg" variant="white">
-                CHALLENGE DESCRIPTION CHALLENGE DESCRIPTION
+                {challenge?.description.toUpperCase() ?? "Loading..."}
               </Text>
 
               <div className="mt-2 flex w-full space-x-4">
-                <Text className="text-base" variant="white">
+                {/* <Text className="text-base" variant="white">
                   EASY
-                </Text>
+                </Text> */}
                 <Text className="text-base" variant="white">
-                  100 POINTS
+                  {challenge?.points ?? 0} POINTS
                 </Text>
-                <Text className="text-base" variant="white">
+                {/* <Text className="text-base" variant="white">
                   SOLVED COUNT
-                </Text>
+                </Text> */}
               </div>
-
-              <Text className="text-lg" variant="white">
-                SPACE FOR THE ENTIRE CHALLENGE ITESELF, IF SOME PROBLEM THAT ONLY
-                REQUIRES FILES JUST PUT SOMETHING LIKE DOWNLOAD THE FILES OR
-                SOMETHING.
+              <Text className="text-sm" variant="secondary">
+                {response}
               </Text>
             </div>
 
-            <Button className="w-1/2">DOWNLOAD CHALLENGE FILES</Button>
+            {status === "on" ? (
+              <Button className="w-1/2 min-w-fit" onClick={stopInstance}>
+                STOP INSTANCE
+              </Button>
+            ) : (
+              <Button className="w-1/2 min-w-fit" onClick={startInstance}>
+                START INSTANCE
+              </Button>
+            )}
 
             <div className="mt-6 flex items-center space-x-8">
               <InputBox
                 className="rounded-2xl border-2 p-4"
                 variant="secondary"
                 placeholder="Flag"
+                onChange={(v) => setFlag(v.target.value)}
               />
-              <Button variant="secondary">SUBMIT</Button>
+              <Button variant="secondary" onClick={submitFlag}>SUBMIT</Button>
             </div>
           </div>
         </div>
 
         <div className="flex w-1/4 items-start justify-end p-6">
-          <Button variant="tertiary">REPORT A BUG</Button>
+          <Button variant="secondary" onClick={killAll}>
+            KILL ALL
+          </Button>
         </div>
       </div>
     </div>
