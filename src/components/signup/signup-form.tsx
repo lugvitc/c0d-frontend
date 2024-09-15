@@ -32,7 +32,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
 
     if (token) {
       window.location.href = "/challenges";
@@ -65,7 +65,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
       })
     ).data as { access_token: string };
 
-    localStorage.setItem("token", res.access_token ?? "");
+    window.localStorage.setItem("token", res.access_token ?? "");
     window.location.href = "/signup";
   };
 

@@ -6,9 +6,9 @@ import Button from "~/components/button";
 import InputBox from "~/components/inputbox";
 import { IoIosArrowBack } from "react-icons/io";
 import Navbar from "~/components/navbar";
-import axiosPrivate from "~/lib/axios/private";
 import { type ChallengeItem } from "~/components/challengeCard";
-import { CHALLENGE_IP } from "~/lib/constants";
+import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
+import axios from "axios";
 
 const challengeTypes = [
   "Miscellanious",
@@ -74,10 +74,10 @@ const ChallengePage: React.FC = () => {
   const [status, setStatus] = useState<StatusType>("off");
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) return;
+    if (!window.localStorage.getItem("token")) return;
 
-    const id = localStorage.getItem("challenge");
-    void axiosPrivate
+    const id = window.localStorage.getItem("challenge");
+    void axios
       .get<
         {
           id: string;
@@ -87,7 +87,11 @@ const ChallengePage: React.FC = () => {
           author: string;
           tags: number;
         }[]
-      >(`/ctf/${id}`)
+      >(`${BACKEND_URL}/ctf/${id}`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         const data = res.data[0];
         if (!data) return;
@@ -111,13 +115,21 @@ const ChallengePage: React.FC = () => {
   };
 
   const startInstance = async () => {
-    const id = localStorage.getItem("challenge");
+    const id = window.localStorage.getItem("challenge");
     const res = (
-      await axiosPrivate.post<{
+      await axios.post<{
         msg_code: number;
         ports: number[];
         ctd_id: number[];
-      }>(`/ctf/${id}/start`)
+      }>(
+        `${BACKEND_URL}/ctf/${id}/start`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        },
+      )
     ).data;
     showHintResponse(res.msg_code);
     if (res.msg_code === 3) {
@@ -127,10 +139,18 @@ const ChallengePage: React.FC = () => {
   };
 
   const stopInstance = async () => {
-    const id = localStorage.getItem("challenge");
-    const res = await axiosPrivate.post<{
+    const id = window.localStorage.getItem("challenge");
+    const res = await axios.post<{
       msg_code: number;
-    }>(`/ctf/${id}/stop`);
+    }>(
+      `${BACKEND_URL}/ctf/${id}/stop`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      },
+    );
     showHintResponse(res.data.msg_code);
     if (res.data.msg_code === 4 || res.data.msg_code === 6) {
       setPorts([]);
@@ -139,9 +159,17 @@ const ChallengePage: React.FC = () => {
   };
 
   const killAll = async () => {
-    const res = await axiosPrivate.post<{
+    const res = await axios.post<{
       msg_code: number;
-    }>("ctf/stopall");
+    }>(
+      BACKEND_URL + "ctf/stopall",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      },
+    );
     showHintResponse(res.data.msg_code);
     if (res.data.msg_code === 5) {
       setPorts([]);
@@ -150,13 +178,21 @@ const ChallengePage: React.FC = () => {
   };
 
   const submitFlag = async () => {
-    const id = localStorage.getItem("challenge");
-    const res = await axiosPrivate.post<{
+    const id = window.localStorage.getItem("challenge");
+    const res = await axios.post<{
       msg_code?: number;
       status?: boolean;
-    }>(`ctf/${id}/flag`, {
-      flag,
-    });
+    }>(
+      `${BACKEND_URL}/ctf/${id}/flag`,
+      {
+        flag,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      },
+    );
     if (res.data.msg_code) {
       showHintResponse(res.data.msg_code);
       setCorrect("Invalid flag!");

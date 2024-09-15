@@ -19,7 +19,7 @@ const SignInForm = ({ className }: SignInFormProps) => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
 
     if (token) {
       window.location.href = "/challenges";
@@ -45,7 +45,7 @@ const SignInForm = ({ className }: SignInFormProps) => {
       })
     ).data as { access_token: string };
 
-    localStorage.setItem("token", res.access_token);
+    window.localStorage.setItem("token", res.access_token);
     window.location.href = "/signin";
   };
 
