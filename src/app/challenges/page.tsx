@@ -12,8 +12,8 @@ const challengeTypes = [
   "Binary",
   "Reversing",
   "Crypto",
-  "OSINT"
-]
+  "OSINT",
+];
 
 interface ChallengeData extends ChallengeItem {
   id: string;
@@ -36,15 +36,24 @@ export default function ChallengesPage() {
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) return;
+
     void axiosPrivate.get("/ctf/list").then((res) => {
-      const data = res.data as { id: string, name: string, description: string, points: string, author: string, tags: number }[];
+      const data = res.data as {
+        id: string;
+        name: string;
+        description: string;
+        points: string;
+        author: string;
+        tags: number;
+      }[];
       const challenges = data.map((challenge) => {
         return {
           id: challenge.id,
           description: challenge.description,
           points: challenge.points,
           title: challenge.name,
-          types: getTypesFromMask(challenge.tags)
+          types: getTypesFromMask(challenge.tags),
         } as unknown as ChallengeData;
       });
       setChallenges(challenges);
@@ -72,7 +81,9 @@ export default function ChallengesPage() {
           >
             <option value="all">All</option>
             {challengeTypes.map((v) => (
-              <option key={v} value={v.toLowerCase()}>{v}</option>
+              <option key={v} value={v.toLowerCase()}>
+                {v}
+              </option>
             ))}
           </select>
         </div>
@@ -86,7 +97,9 @@ export default function ChallengesPage() {
             .filter((c) =>
               type === "all"
                 ? true
-                : c.types.filter(v => v.toLowerCase().includes(type.toLowerCase())),
+                : c.types.filter((v) =>
+                    v.toLowerCase().includes(type.toLowerCase()),
+                  ),
             )
             .map((challenge, index) => (
               <ChallengeCard

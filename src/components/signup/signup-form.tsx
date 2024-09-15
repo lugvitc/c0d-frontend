@@ -57,12 +57,14 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
 
     if (!formData.teamName || !formData.password || tags.length < 1) return;
 
-    const res = (await axios.post(`${BACKEND_URL}/auth/signup`, {
-      name: formData.teamName,
-      password: formData.password,
-      tags,
-    })).data as { access_token: string };
-    
+    const res = (
+      await axios.post(`${BACKEND_URL}/auth/signup`, {
+        name: formData.teamName,
+        password: formData.password,
+        tags,
+      })
+    ).data as { access_token: string };
+
     localStorage.setItem("token", res.access_token ?? "");
     window.location.href = "/signup";
   };

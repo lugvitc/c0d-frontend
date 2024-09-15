@@ -7,33 +7,43 @@ export default function Sales() {
         <Text className="text-3xl font-bold" variant="outline-white">
           ONE OF
         </Text>
-        <Text className="text-3xl md:text-6xl font-bold" variant="white">
+        <Text className="text-3xl font-bold md:text-6xl" variant="white">
           VIT CHENNAI&rsquo;S
           <br />
         </Text>
-        <Text className="text-3xl text-center md:text-6xl font-bold" variant="white">
+        <Text
+          className="text-center text-3xl font-bold md:text-6xl"
+          variant="white"
+        >
           BIGGEST CYBERSECURITY
         </Text>
-        <Text className="text-3xl md:text-6xl font-bold" variant="white">
+        <Text className="text-3xl font-bold md:text-6xl" variant="white">
           EVENT
         </Text>
       </div>
       <div className="h-12 md:h-24" />
-      <div className="flex flex-col gap-8 sm:flex-row w-full justify-around">
+      <div className="flex w-full flex-col justify-around gap-8 sm:flex-row">
         <div className="flex flex-col items-center justify-center">
-          <Text className="text-3xl md:text-5xl font-bold" variant="white">
+          <Text className="text-3xl font-bold md:text-5xl" variant="white">
             200+
           </Text>
-          <Text className="text-md md:text-3xl font-bold" variant="outline-white">
+          <Text
+            className="text-md font-bold md:text-3xl"
+            variant="outline-white"
+          >
             Hackers
           </Text>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <Text className="text-3xl md:text-5xl font-bold" variant="primary" glow="primary">
+          <Text
+            className="text-3xl font-bold md:text-5xl"
+            variant="primary"
+            glow="primary"
+          >
             ₹12,000+
           </Text>
           <Text
-            className="text-md md:text-3xl font-bold"
+            className="text-md font-bold md:text-3xl"
             variant="outline-primary"
             glow="primary"
           >
@@ -41,10 +51,13 @@ export default function Sales() {
           </Text>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <Text className="text-3xl md:text-5xl font-bold" variant="white">
+          <Text className="text-3xl font-bold md:text-5xl" variant="white">
             24
           </Text>
-          <Text className="text-md md:text-3xl font-bold" variant="outline-white">
+          <Text
+            className="text-md font-bold md:text-3xl"
+            variant="outline-white"
+          >
             Hours
           </Text>
         </div>

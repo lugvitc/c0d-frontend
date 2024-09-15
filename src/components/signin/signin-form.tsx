@@ -38,10 +38,12 @@ const SignInForm = ({ className }: SignInFormProps) => {
 
     if (!formData.name || !formData.password) return;
 
-    const res = (await axios.post(`${BACKEND_URL}/auth/login`, {
-      name: formData.name,
-      password: formData.password,
-    })).data as { access_token: string };
+    const res = (
+      await axios.post(`${BACKEND_URL}/auth/login`, {
+        name: formData.name,
+        password: formData.password,
+      })
+    ).data as { access_token: string };
 
     localStorage.setItem("token", res.access_token);
     window.location.href = "/signin";

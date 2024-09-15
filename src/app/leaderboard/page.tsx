@@ -1,9 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import React, { useState, useEffect } from "react";
 import Text from "~/components/text";
 import LeaderboardHeader from "~/components/leaderboardheader";
 import LeaderboardEntry from "~/components/leaderboardentry";
 import InputBox from "~/components/inputbox";
+import axiosPrivate from "~/lib/axios/private";
 
 // Define the interface for the leaderboard data
 interface LeaderboardData {
@@ -21,12 +27,8 @@ const LeaderboardPage: React.FC = () => {
     const fetchLeaderboardData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:8000/api/leaderboard"); // Replace this with the actual backend URL
-        if (!response.ok) {
-          console.log(response);
-          throw new Error(`Error: ${response.statusText}`);
-        }
-        const data: LeaderboardData[] = await response.json();
+        const response = await axiosPrivate.get("/leaderboard");
+        const data: LeaderboardData[] = response.data;
         setLeaderboardData(data);
       } catch (err: any) {
         setError(err.message);
@@ -35,7 +37,7 @@ const LeaderboardPage: React.FC = () => {
       }
     };
 
-    fetchLeaderboardData();
+    void fetchLeaderboardData();
   }, []);
 
   const filteredData = leaderboardData.filter((entry) =>

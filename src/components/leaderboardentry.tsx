@@ -24,7 +24,7 @@ const getBackgroundColor = (rank: number) => {
 };
 
 const LeaderboardEntry = forwardRef<HTMLTableRowElement, LeaderboardEntryProps>(
-  ({ rank, name, score, solvedCount, className, ...other }, ref) => {
+  ({ rank, name, score, className, ...other }, ref) => {
     return (
       <tr
         ref={ref}

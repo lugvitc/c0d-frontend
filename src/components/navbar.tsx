@@ -11,7 +11,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky backdrop-blur-sm top-0 z-20 flex w-full items-center justify-between p-4 md:p-12 text-white bg-transparent">
+    <header className="sticky top-0 z-20 flex w-full items-center justify-between bg-transparent p-4 text-white backdrop-blur-sm md:p-12">
       {/* Logo */}
       <Image
         className="ml-4 md:ml-14"
@@ -20,15 +20,15 @@ export default function Navbar() {
         width={50}
         height={50}
       />
-      
+
       {/* Hamburger Menu for Mobile */}
-      <div className="md:hidden p-4">
+      <div className="p-4 md:hidden">
         <button
           onClick={toggleMenu}
-          className="text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+          className="text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
         >
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ export default function Navbar() {
       </div>
 
       {/* Desktop Menu */}
-      <nav className="hidden md:flex items-center justify-center space-x-4">
+      <nav className="hidden items-center justify-center space-x-4 md:flex">
         <LinkButton href="#prizes" variant="secondary">
           PRIZES
         </LinkButton>
@@ -79,7 +79,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <nav className="absolute top-full left-0 w-full bg-black text-white flex flex-col items-center space-y-4 py-6 md:hidden">
+        <nav className="absolute left-0 top-full flex w-full flex-col items-center space-y-4 bg-black py-6 text-white md:hidden">
           <LinkButton href="#prizes" variant="secondary" onClick={toggleMenu}>
             PRIZES
           </LinkButton>

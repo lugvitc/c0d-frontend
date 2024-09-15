@@ -87,32 +87,51 @@ const dates = [
 
 export default function Tmieline() {
   return (
-    <section id="timeline" className="mx-10 md:mx-40 flex flex-col">
+    <section id="timeline" className="mx-10 flex flex-col md:mx-40">
       <div className="flex flex-col gap-20">
-        <Text className="text-3xl md:text-6xl font-bold" variant="primary" glow="primary">
+        <Text
+          className="text-3xl font-bold md:text-6xl"
+          variant="primary"
+          glow="primary"
+        >
           THE TIMELINE
         </Text>
         <div className="flex flex-col gap-14">
           {dates.map((date, index) => (
             <div key={index} className="flex flex-col gap-20">
-              <Text className="text-3xl md:text-5xl font-bold" variant="white">
+              <Text className="text-3xl font-bold md:text-5xl" variant="white">
                 {date.title}
               </Text>
               {date.times.map((time, index) => (
-                <div key={index} className="mx-8 md:mx-16 flex flex-col gap-2 md:gap-4 overflow-hidden">
+                <div
+                  key={index}
+                  className="mx-8 flex flex-col gap-2 overflow-hidden md:mx-16 md:gap-4"
+                >
                   <div className="mx-16 flex flex-col gap-4 border-l-4 border-[#ff0000] pl-8 [box-shadow:_-10px_0px_20px_-5px_#ff0000]">
-                    <Text className="text-xl md:text-4xl font-bold" variant="white">
+                    <Text
+                      className="text-xl font-bold md:text-4xl"
+                      variant="white"
+                    >
                       {time.time}
                     </Text>
                     <div className="flex flex-col gap-2">
-                      <Text className="text-xl md:text-4xl font-bold" variant="secondary">
+                      <Text
+                        className="text-xl font-bold md:text-4xl"
+                        variant="secondary"
+                      >
                         {time.type}
                       </Text>
                       <div className="h-4" />
-                      <Text className="text-xl md:text-4xl font-bold" variant="white">
+                      <Text
+                        className="text-xl font-bold md:text-4xl"
+                        variant="white"
+                      >
                         {time.title}
                       </Text>
-                      <Text className="text-xl md:text-4xl font-bold" variant="white">
+                      <Text
+                        className="text-xl font-bold md:text-4xl"
+                        variant="white"
+                      >
                         {time.by}
                       </Text>
                     </div>

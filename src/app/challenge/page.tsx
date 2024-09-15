@@ -8,6 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import Navbar from "~/components/navbar";
 import axiosPrivate from "~/lib/axios/private";
 import { type ChallengeItem } from "~/components/challengeCard";
+import { CHALLENGE_IP } from "~/lib/constants";
 
 const challengeTypes = [
   "Miscellanious",
@@ -68,9 +69,13 @@ const ChallengePage: React.FC = () => {
   const [challenge, setChallenge] = useState<ChallengeData | null>(null);
   const [flag, setFlag] = useState<string>("");
   const [response, setResponse] = useState("");
+  const [correct, setCorrect] = useState("");
+  const [ports, setPorts] = useState<number[]>([]);
   const [status, setStatus] = useState<StatusType>("off");
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) return;
+
     const id = localStorage.getItem("challenge");
     void axiosPrivate
       .get<
@@ -115,7 +120,10 @@ const ChallengePage: React.FC = () => {
       }>(`/ctf/${id}/start`)
     ).data;
     showHintResponse(res.msg_code);
-    if (res.msg_code === 3) setStatus("on");
+    if (res.msg_code === 3) {
+      setPorts(res.ports);
+      setStatus("on");
+    }
   };
 
   const stopInstance = async () => {
@@ -124,7 +132,10 @@ const ChallengePage: React.FC = () => {
       msg_code: number;
     }>(`/ctf/${id}/stop`);
     showHintResponse(res.data.msg_code);
-    if (res.data.msg_code === 4) setStatus("off");
+    if (res.data.msg_code === 4 || res.data.msg_code === 6) {
+      setPorts([]);
+      setStatus("off");
+    }
   };
 
   const killAll = async () => {
@@ -132,18 +143,26 @@ const ChallengePage: React.FC = () => {
       msg_code: number;
     }>("ctf/stopall");
     showHintResponse(res.data.msg_code);
-    if (res.data.msg_code === 5) setStatus("off");
+    if (res.data.msg_code === 5) {
+      setPorts([]);
+      setStatus("off");
+    }
   };
 
   const submitFlag = async () => {
     const id = localStorage.getItem("challenge");
     const res = await axiosPrivate.post<{
-      msg_code: number;
+      msg_code?: number;
+      status?: boolean;
     }>(`ctf/${id}/flag`, {
-      flag
+      flag,
     });
-    
-  }
+    if (res.data.msg_code) {
+      showHintResponse(res.data.msg_code);
+      setCorrect("Invalid flag!");
+    }
+    if (res.status) setCorrect("Correct flag!");
+  };
 
   return (
     <div className="flex min-h-screen flex-col justify-between p-6">
@@ -181,6 +200,14 @@ const ChallengePage: React.FC = () => {
               </Text>
             </div>
 
+            {ports.map((port) => (
+              <div key={port} className="flex gap-4">
+                <Text className="text-lg font-bold">
+                  {CHALLENGE_IP}:{port}
+                </Text>
+              </div>
+            ))}
+
             {status === "on" ? (
               <Button className="w-1/2 min-w-fit" onClick={stopInstance}>
                 STOP INSTANCE
@@ -191,14 +218,19 @@ const ChallengePage: React.FC = () => {
               </Button>
             )}
 
-            <div className="mt-6 flex items-center space-x-8">
-              <InputBox
-                className="rounded-2xl border-2 p-4"
-                variant="secondary"
-                placeholder="Flag"
-                onChange={(v) => setFlag(v.target.value)}
-              />
-              <Button variant="secondary" onClick={submitFlag}>SUBMIT</Button>
+            <div className="flex flex-col gap-4">
+              <Text className="ml-2 text-xl">{correct}</Text>
+              <div className="flex items-center space-x-8">
+                <InputBox
+                  className="rounded-2xl border-2 p-4"
+                  variant="secondary"
+                  placeholder="Flag"
+                  onChange={(v) => setFlag(v.target.value)}
+                />
+                <Button variant="secondary" onClick={submitFlag}>
+                  SUBMIT
+                </Button>
+              </div>
             </div>
           </div>
         </div>
