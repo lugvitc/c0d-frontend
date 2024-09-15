@@ -51,7 +51,7 @@ const SignInForm = ({ className }: SignInFormProps) => {
 
   return (
     <div
-      className={cn("flex max-w-lg flex-col items-center space-y-4", className)}
+      className={cn("flex max-w-lg flex-col items-center rounded-lg bg-[#00000095] p-8 py-12 space-y-4", className)}
     >
       {/* Sign In Header */}
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
