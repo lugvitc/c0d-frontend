@@ -11,6 +11,7 @@ import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
 import axios from "axios";
 import { CgSpinner } from "react-icons/cg";
 import { useToast } from "~/components/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const challengeTypes = [
   "Miscellaneous",
@@ -270,6 +271,8 @@ const ChallengePage: React.FC = () => {
     setSubmiting(false);
   };
 
+  const router = useRouter();
+
   return (
     <div className="flex min-h-screen flex-col p-6">
       <Navbar notLanding />
@@ -285,10 +288,7 @@ const ChallengePage: React.FC = () => {
         <div className="flex min-h-screen justify-between p-6">
           <div className="flex w-3/5 gap-4 bg-transparent p-6">
             <div className="mt-2">
-              <IconButton
-                icon={IoIosArrowBack}
-                onClick={() => window.history.back()}
-              />
+              <IconButton icon={IoIosArrowBack} onClick={() => router.back()} />
             </div>
             <div className="flex flex-col gap-10">
               <Text className="text-3xl font-bold" glow="primary">
