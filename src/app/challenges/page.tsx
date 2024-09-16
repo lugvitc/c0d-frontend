@@ -125,25 +125,24 @@ export default function ChallengesPage() {
               )}
             </Text>
           )}
-          {challenges
-            .filter((c) =>
-              type === "all"
-                ? true
-                : c.types.filter((v) =>
-                    v.toLowerCase().includes(type.toLowerCase()),
-                  ),
-            )
-            .map((challenge, index) => (
-              <ChallengeCard
-                key={index}
-                title={challenge.title}
-                types={challenge.types}
-                description={challenge.description}
-                points={challenge.points}
-                // solves={challenge.solves}
-                onClick={() => setChallenge(challenge.id)}
-              />
-            ))}
+          {(type === "all"
+            ? challenges
+            : challenges.filter((c) =>
+                c.types.some((v) =>
+                  v.toLowerCase().includes(type.toLowerCase()),
+                ),
+              )
+          ).map((challenge, index) => (
+            <ChallengeCard
+              key={index}
+              title={challenge.title}
+              types={challenge.types}
+              description={challenge.description}
+              points={challenge.points}
+              // solves={challenge.solves}
+              onClick={() => setChallenge(challenge.id)}
+            />
+          ))}
         </div>
       </div>
     </div>
