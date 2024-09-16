@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
@@ -42,15 +43,15 @@ export default function ChallengesPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!window.localStorage.getItem("token")) {
-      window.location.href = "/signin";
-      toast({
-        title: "Error",
-        description: "You need to be signed in to view this page",
-        duration: 5000,
-      });
-      return;
-    }
+    // if (!window.localStorage.getItem("token")) {
+    //   window.location.href = "/signin";
+    //   toast({
+    //     title: "Error",
+    //     description: "You need to be signed in to view this page",
+    //     duration: 5000,
+    //   });
+    //   return;
+    // }
 
     void axios
       .get(`${BACKEND_URL}/ctf/list`, {
