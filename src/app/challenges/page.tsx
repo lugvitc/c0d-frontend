@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import ChallengeCard, { type ChallengeItem } from "~/components/challengeCard";
+import { useToast } from "~/components/hooks/use-toast";
 import Navbar from "~/components/navbar";
 import Text from "~/components/text";
 import { BACKEND_URL } from "~/lib/constants";
@@ -35,10 +37,17 @@ function getTypesFromMask(mask: number) {
 export default function ChallengesPage() {
   const [type, setType] = useState("all");
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
       window.location.href = "/signin";
+      toast({
+        title: "Error",
+        description: "You need to be signed in to view this page",
+        duration: 5000,
+      });
       return;
     }
 
@@ -67,8 +76,17 @@ export default function ChallengesPage() {
           } as unknown as ChallengeData;
         });
         setChallenges(challenges);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to fetch challenges",
+          duration: 5000,
+        });
+        setLoading(false);
       });
-  }, []);
+  }, [toast]);
 
   const setChallenge = (id: string) => {
     window.localStorage.setItem("challenge", id);
@@ -100,7 +118,11 @@ export default function ChallengesPage() {
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4">
           {challenges.length === 0 && (
             <Text className="text-2xl font-bold" variant="secondary">
-              Loading...
+              {!loading ? (
+                "Not yet started. Check back later!"
+              ) : (
+                <CgSpinner className="animate-spin text-3xl text-white" />
+              )}
             </Text>
           )}
           {challenges

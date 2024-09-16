@@ -7,6 +7,9 @@ import { cn } from "~/lib/utils";
 import { BACKEND_URL } from "~/lib/constants";
 import LinkButton from "../LinkButton";
 import axios from "axios";
+import { BiMinus } from "react-icons/bi";
+import { CgSpinner } from "react-icons/cg";
+import { useToast } from "../hooks/use-toast";
 
 interface SignUpFormProps {
   className?: string;
@@ -30,14 +33,21 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     teamMember3RegNo: "",
     count: 0,
   });
+  const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
 
     if (token) {
       window.location.href = "/challenges";
+      toast({
+        title: "Redirecting",
+        description: "You are signed in",
+        duration: 5000,
+      });
     }
-  }, []);
+  }, [toast]);
 
   // Handler for input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,21 +62,38 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     const tags = [];
 
     if (formData.teamLeadRegNo) tags.push(formData.teamLeadRegNo);
-    if (formData.teamMember2RegNo) tags.push(formData.teamMember2RegNo);
-    if (formData.teamMember3RegNo) tags.push(formData.teamMember3RegNo);
+    if (formData.teamMember2RegNo && formData.count > 0)
+      tags.push(formData.teamMember2RegNo);
+    if (formData.teamMember3RegNo && formData.count > 1)
+      tags.push(formData.teamMember3RegNo);
 
     if (!formData.teamName || !formData.password || tags.length < 1) return;
 
+    setSubmitting(true);
     const res = (
-      await axios.post(`${BACKEND_URL}/auth/signup`, {
-        name: formData.teamName,
-        password: formData.password,
-        tags,
-      })
+      await axios
+        .post(`${BACKEND_URL}/auth/signup`, {
+          name: formData.teamName,
+          password: formData.password,
+          tags,
+        })
+        .catch((err) => {
+          console.error(err);
+          toast({
+            title: "Error",
+            description: "Failed to sign up",
+            duration: 5000,
+          });
+          setSubmitting(false);
+          return { data: { access_token: "" } };
+        })
     ).data as { access_token: string };
+    setSubmitting(false);
 
-    window.localStorage.setItem("token", res.access_token ?? "");
-    window.location.href = "/signup";
+    if (res.access_token) {
+      window.localStorage.setItem("token", res.access_token);
+      window.location.href = "/signup";
+    }
   };
 
   const handleAdd = () => {
@@ -75,9 +102,18 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     setFormData((prev) => ({ ...prev, count: prev.count + 1 }));
   };
 
+  const handleRemove = () => {
+    if (formData.count <= 0) return;
+
+    setFormData((prev) => ({ ...prev, count: prev.count - 1 }));
+  };
+
   return (
     <div
-      className={cn("flex max-w-lg flex-col items-center rounded-lg bg-[#00000095] p-8 py-12 space-y-4", className)}
+      className={cn(
+        "flex max-w-lg flex-col items-center space-y-4 rounded-lg bg-[#00000095] p-8 py-12",
+        className,
+      )}
     >
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
         SIGNUP
@@ -96,6 +132,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
         <InputBox
           name="password"
           type="password"
+          minLength={8}
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
@@ -134,17 +171,31 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           />
         )}
 
+        <div className="flex gap-2">
+          <Button
+            className="flex-grow text-white"
+            variant="secondary"
+            type="button"
+            onClick={handleAdd}
+          >
+            Add Member
+          </Button>
+          <Button
+            className="text-white"
+            variant="secondary"
+            type="button"
+            onClick={handleRemove}
+          >
+            <BiMinus />
+          </Button>
+        </div>
+
         <Button
-          className="text-white"
+          className="flex justify-center text-white"
           type="submit"
           variant="secondary"
-          onClick={handleAdd}
         >
-          Add Member
-        </Button>
-
-        <Button className="text-white" type="submit" variant="secondary">
-          Create Team
+          {submitting ? <CgSpinner className="animate-spin" /> : "Create Team"}
         </Button>
         <div>
           <Text className="inline-block text-sm" variant="secondary">

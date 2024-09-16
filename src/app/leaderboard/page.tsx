@@ -12,6 +12,8 @@ import InputBox from "~/components/inputbox";
 import axios from "axios";
 import { BACKEND_URL } from "~/lib/constants";
 import Navbar from "~/components/navbar";
+import { CgSpinner } from "react-icons/cg";
+import { useToast } from "~/components/hooks/use-toast";
 
 // Define the interface for the leaderboard data
 interface LeaderboardData {
@@ -24,10 +26,16 @@ const LeaderboardPage: React.FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
       window.location.href = "/signin";
+      toast({
+        title: "Error",
+        description: "You need to be signed in to view this page",
+        duration: 5000,
+      });
       return;
     }
 
@@ -42,6 +50,12 @@ const LeaderboardPage: React.FC = () => {
         const data: LeaderboardData[] = response.data;
         setLeaderboardData(data);
       } catch (err: any) {
+        console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to fetch leaderboard data",
+          duration: 5000,
+        });
         setError(err.message);
       } finally {
         setLoading(false);
@@ -49,7 +63,7 @@ const LeaderboardPage: React.FC = () => {
     };
 
     void fetchLeaderboardData();
-  }, []);
+  }, [toast]);
 
   const filteredData = leaderboardData.filter((entry) =>
     entry.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -77,7 +91,9 @@ const LeaderboardPage: React.FC = () => {
       {/* Leaderboard Table */}
       <div className="w-full overflow-x-auto px-32 py-8">
         {loading ? (
-          <div className="text-center">Loading...</div>
+          <div className="text-center">
+            <CgSpinner className="animate-spin text-3xl" />
+          </div>
         ) : error ? (
           <div className="text-center text-red-500">Error: {error}</div>
         ) : (
