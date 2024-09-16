@@ -10,6 +10,7 @@ import { type ChallengeItem } from "~/components/challengeCard";
 import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
 import axios from "axios";
 import { CgSpinner } from "react-icons/cg";
+import { useToast } from "~/components/hooks/use-toast";
 
 const challengeTypes = [
   "Miscellaneous",
@@ -75,10 +76,17 @@ const ChallengePage: React.FC = () => {
   const [submiting, setSubmiting] = useState(false);
   const [ports, setPorts] = useState<number[]>([]);
   const [status, setStatus] = useState<StatusType>("off");
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
       window.location.href = "/signin";
+      console.error("You need to be signed in to view this page");
+      toast({
+        title: "Error",
+        description: "You need to be signed in to view this page",
+        duration: 5000,
+      });
       return;
     }
 
@@ -113,12 +121,23 @@ const ChallengePage: React.FC = () => {
       })
       .catch((err) => {
         console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to fetch challenge",
+          duration: 5000,
+        });
         setLoading(false);
       });
-  }, []);
+  }, [toast]);
 
   const showHintResponse = (msgCode: number) => {
+    if (msgCode === -1) return;
     if (!(window as unknown as { debugMode: boolean }).debugMode) return;
+    toast({
+      title: "Hint Response",
+      description: msgCodes[msgCode] ?? "",
+      duration: 5000,
+    });
     setResponse(msgCodes[msgCode] ?? "");
     setTimeout(() => {
       setResponse("");
@@ -129,19 +148,29 @@ const ChallengePage: React.FC = () => {
     setStatus("starting");
     const id = window.localStorage.getItem("challenge");
     const res = (
-      await axios.post<{
-        msg_code: number;
-        ports: number[];
-        ctd_id: number[];
-      }>(
-        `${BACKEND_URL}/ctf/${id}/start`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+      await axios
+        .post<{
+          msg_code: number;
+          ports: number[];
+          ctd_id: number[];
+        }>(
+          `${BACKEND_URL}/ctf/${id}/start`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+            },
           },
-        },
-      )
+        )
+        .catch((err) => {
+          console.error(err);
+          toast({
+            title: "Error",
+            description: "Failed to start instance",
+            duration: 5000,
+          });
+          return { data: { msg_code: -1, ports: [] } };
+        })
     ).data;
     showHintResponse(res.msg_code);
     if (res.msg_code === 3) {
@@ -153,17 +182,27 @@ const ChallengePage: React.FC = () => {
   const stopInstance = async () => {
     setStatus("stopping");
     const id = window.localStorage.getItem("challenge");
-    const res = await axios.post<{
-      msg_code: number;
-    }>(
-      `${BACKEND_URL}/ctf/${id}/stop`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    const res = await axios
+      .post<{
+        msg_code: number;
+      }>(
+        `${BACKEND_URL}/ctf/${id}/stop`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
         },
-      },
-    );
+      )
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to stop instance",
+          duration: 5000,
+        });
+        return { data: { msg_code: -1 } };
+      });
     showHintResponse(res.data.msg_code);
     if (res.data.msg_code === 4 || res.data.msg_code === 6) {
       setPorts([]);
@@ -172,17 +211,28 @@ const ChallengePage: React.FC = () => {
   };
 
   const killAll = async () => {
-    const res = await axios.post<{
-      msg_code: number;
-    }>(
-      BACKEND_URL + "ctf/stopall",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    setStatus("stopping");
+    const res = await axios
+      .post<{
+        msg_code: number;
+      }>(
+        BACKEND_URL + "/ctf/stopall",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
         },
-      },
-    );
+      )
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to stop all instances",
+          duration: 5000,
+        });
+        return { data: { msg_code: -1 } };
+      });
     showHintResponse(res.data.msg_code);
     if (res.data.msg_code === 5) {
       setPorts([]);
@@ -193,32 +243,46 @@ const ChallengePage: React.FC = () => {
   const submitFlag = async () => {
     setSubmiting(true);
     const id = window.localStorage.getItem("challenge");
-    const res = await axios.post<{
-      msg_code?: number;
-      status?: boolean;
-    }>(
-      `${BACKEND_URL}/ctf/${id}/flag`,
-      {
-        flag,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    const res = await axios
+      .post<{
+        msg_code?: number;
+        status?: boolean;
+      }>(
+        `${BACKEND_URL}/ctf/${id}/flag`,
+        {
+          flag,
         },
-      },
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        },
+      )
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Error",
+          description: "Failed to submit flag",
+          duration: 5000,
+        });
+        return { data: { msg_code: -1, status: false } };
+      });
     if (res.data.msg_code) {
       showHintResponse(res.data.msg_code);
       setCorrect("Invalid flag!");
     }
-    if (res.status) setCorrect("Correct flag!");
+    if (res.data.status) {
+      setCorrect("Correct flag!");
+    }
     setSubmiting(false);
   };
 
   return (
     <div className="flex min-h-screen flex-col p-6">
       <Navbar notLanding />
-      {loading && <CgSpinner className="ml-12 animate-spin text-4xl text-white" />}
+      {loading && (
+        <CgSpinner className="ml-12 animate-spin text-4xl text-white" />
+      )}
       {!challenge && !loading && (
         <Text className="ml-12 text-4xl" variant="white">
           Challenge not found
@@ -277,7 +341,9 @@ const ChallengePage: React.FC = () => {
                   </Button>
                 )}
                 {(status === "starting" || status === "stopping") && (
-                  <CgSpinner className="animate-spin text-2xl" />
+                  <Text className="flex items-center justify-center">
+                    <CgSpinner className="animate-spin text-2xl" />
+                  </Text>
                 )}
               </div>
 

@@ -9,6 +9,7 @@ import LinkButton from "../LinkButton";
 import axios from "axios";
 import { BiMinus } from "react-icons/bi";
 import { CgSpinner } from "react-icons/cg";
+import { useToast } from "../hooks/use-toast";
 
 interface SignUpFormProps {
   className?: string;
@@ -33,14 +34,20 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     count: 0,
   });
   const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
 
     if (token) {
       window.location.href = "/challenges";
+      toast({
+        title: "Redirecting",
+        description: "You are signed in",
+        duration: 5000,
+      });
     }
-  }, []);
+  }, [toast]);
 
   // Handler for input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,14 +71,22 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
 
     setSubmitting(true);
     const res = (
-      await axios.post(`${BACKEND_URL}/auth/signup`, {
-        name: formData.teamName,
-        password: formData.password,
-        tags,
-      }).catch(() => {
-        setSubmitting(false);
-        return { data: { access_token: "" } };
-      })
+      await axios
+        .post(`${BACKEND_URL}/auth/signup`, {
+          name: formData.teamName,
+          password: formData.password,
+          tags,
+        })
+        .catch((err) => {
+          console.error(err);
+          toast({
+            title: "Error",
+            description: "Failed to sign up",
+            duration: 5000,
+          });
+          setSubmitting(false);
+          return { data: { access_token: "" } };
+        })
     ).data as { access_token: string };
     setSubmitting(false);
 
@@ -175,7 +190,11 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           </Button>
         </div>
 
-        <Button className="text-white flex justify-center" type="submit" variant="secondary">
+        <Button
+          className="flex justify-center text-white"
+          type="submit"
+          variant="secondary"
+        >
           {submitting ? <CgSpinner className="animate-spin" /> : "Create Team"}
         </Button>
         <div>
