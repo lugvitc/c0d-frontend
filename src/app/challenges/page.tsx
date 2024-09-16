@@ -100,7 +100,7 @@ export default function ChallengesPage() {
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4">
           {challenges.length === 0 && (
             <Text className="text-2xl font-bold" variant="secondary">
-              Loading...
+              Not yet started. Check back later!
             </Text>
           )}
           {challenges
