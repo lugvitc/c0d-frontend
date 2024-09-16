@@ -7,6 +7,7 @@ import { cn } from "~/lib/utils";
 import { BACKEND_URL } from "~/lib/constants";
 import LinkButton from "../LinkButton";
 import axios from "axios";
+import { BiMinus } from "react-icons/bi";
 
 interface SignUpFormProps {
   className?: string;
@@ -52,10 +53,18 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     const tags = [];
 
     if (formData.teamLeadRegNo) tags.push(formData.teamLeadRegNo);
-    if (formData.teamMember2RegNo) tags.push(formData.teamMember2RegNo);
-    if (formData.teamMember3RegNo) tags.push(formData.teamMember3RegNo);
+    if (formData.teamMember2RegNo && formData.count > 0)
+      tags.push(formData.teamMember2RegNo);
+    if (formData.teamMember3RegNo && formData.count > 1)
+      tags.push(formData.teamMember3RegNo);
 
     if (!formData.teamName || !formData.password || tags.length < 1) return;
+
+    console.log({
+      name: formData.teamName,
+      password: formData.password,
+      tags,
+    });
 
     const res = (
       await axios.post(`${BACKEND_URL}/auth/signup`, {
@@ -75,9 +84,18 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     setFormData((prev) => ({ ...prev, count: prev.count + 1 }));
   };
 
+  const handleRemove = () => {
+    if (formData.count <= 0) return;
+
+    setFormData((prev) => ({ ...prev, count: prev.count - 1 }));
+  };
+
   return (
     <div
-      className={cn("flex max-w-lg flex-col items-center rounded-lg bg-[#00000095] p-8 py-12 space-y-4", className)}
+      className={cn(
+        "flex max-w-lg flex-col items-center space-y-4 rounded-lg bg-[#00000095] p-8 py-12",
+        className,
+      )}
     >
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
         SIGNUP
@@ -134,14 +152,24 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           />
         )}
 
-        <Button
-          className="text-white"
-          type="submit"
-          variant="secondary"
-          onClick={handleAdd}
-        >
-          Add Member
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            className="flex-grow text-white"
+            variant="secondary"
+            type="button"
+            onClick={handleAdd}
+          >
+            Add Member
+          </Button>
+          <Button
+            className="text-white"
+            variant="secondary"
+            type="button"
+            onClick={handleRemove}
+          >
+            <BiMinus />
+          </Button>
+        </div>
 
         <Button className="text-white" type="submit" variant="secondary">
           Create Team
