@@ -265,10 +265,9 @@ const ChallengePage: React.FC = () => {
           description: "Failed to submit flag",
           duration: 5000,
         });
-        return { data: { msg_code: -1, status: false } };
+        return { data: { status: false } };
       });
-    if (res.data.msg_code) {
-      showHintResponse(res.data.msg_code);
+    if (!res.data.status) {
       setCorrect("Invalid flag!");
     }
     if (res.data.status) {
