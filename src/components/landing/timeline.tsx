@@ -1,4 +1,10 @@
+"use client";
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Text from "../text";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const dates = [
   {
@@ -86,6 +92,26 @@ const dates = [
 ];
 
 export default function Tmieline() {
+  useEffect(() => {
+    gsap.utils.toArray(".timeline-item").forEach((item) => {
+      gsap.fromTo(
+        item as Element,
+        { autoAlpha: 0, y: 50 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scrollTrigger: {
+            trigger: item as Element,
+            start: "top 80%",
+            end: "bottom 20%",
+            // markers: true,
+            scrub: true,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
     <section id="timeline" className="mx-10 flex flex-col md:mx-40">
       <div className="flex flex-col gap-20">
@@ -105,7 +131,7 @@ export default function Tmieline() {
               {date.times.map((time, index) => (
                 <div
                   key={index}
-                  className="mx-8 flex flex-col gap-2 overflow-hidden md:mx-16 md:gap-4"
+                  className="timeline-item mx-8 flex flex-col gap-2 overflow-hidden md:mx-16 md:gap-4"
                 >
                   <div className="mx-16 flex flex-col gap-4 border-l-4 border-[#ff0000] pl-8 [box-shadow:_-10px_0px_20px_-5px_#ff0000]">
                     <Text
