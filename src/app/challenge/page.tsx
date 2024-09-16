@@ -132,12 +132,6 @@ const ChallengePage: React.FC = () => {
 
   const showHintResponse = (msgCode: number) => {
     if (msgCode === -1) return;
-    if (!(window as unknown as { debugMode: boolean }).debugMode) return;
-    toast({
-      title: "Hint Response",
-      description: msgCodes[msgCode] ?? "",
-      duration: 5000,
-    });
     setResponse(msgCodes[msgCode] ?? "");
     setTimeout(() => {
       setResponse("");
