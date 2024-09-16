@@ -114,6 +114,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
         <InputBox
           name="password"
           type="password"
+          minLength={8}
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
