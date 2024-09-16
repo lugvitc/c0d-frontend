@@ -8,6 +8,7 @@ import { BACKEND_URL } from "~/lib/constants";
 import LinkButton from "../LinkButton";
 import axios from "axios";
 import { BiMinus } from "react-icons/bi";
+import { CgSpinner } from "react-icons/cg";
 
 interface SignUpFormProps {
   className?: string;
@@ -31,6 +32,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     teamMember3RegNo: "",
     count: 0,
   });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -60,22 +62,23 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
 
     if (!formData.teamName || !formData.password || tags.length < 1) return;
 
-    console.log({
-      name: formData.teamName,
-      password: formData.password,
-      tags,
-    });
-
+    setSubmitting(true);
     const res = (
       await axios.post(`${BACKEND_URL}/auth/signup`, {
         name: formData.teamName,
         password: formData.password,
         tags,
+      }).catch(() => {
+        setSubmitting(false);
+        return { data: { access_token: "" } };
       })
     ).data as { access_token: string };
+    setSubmitting(false);
 
-    window.localStorage.setItem("token", res.access_token ?? "");
-    window.location.href = "/signup";
+    if (res.access_token) {
+      window.localStorage.setItem("token", res.access_token);
+      window.location.href = "/signup";
+    }
   };
 
   const handleAdd = () => {
@@ -172,8 +175,8 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           </Button>
         </div>
 
-        <Button className="text-white" type="submit" variant="secondary">
-          Create Team
+        <Button className="text-white flex justify-center" type="submit" variant="secondary">
+          {submitting ? <CgSpinner className="animate-spin" /> : "Create Team"}
         </Button>
         <div>
           <Text className="inline-block text-sm" variant="secondary">

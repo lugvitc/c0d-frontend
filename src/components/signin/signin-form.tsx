@@ -7,6 +7,7 @@ import LinkButton from "../LinkButton"; // Ensure correct path
 import { cn } from "~/lib/utils";
 import { BACKEND_URL } from "~/lib/constants";
 import axios from "axios";
+import { CgSpinner } from "react-icons/cg";
 
 interface SignInFormProps {
   className?: string;
@@ -17,6 +18,7 @@ const SignInForm = ({ className }: SignInFormProps) => {
     name: "",
     password: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -38,15 +40,24 @@ const SignInForm = ({ className }: SignInFormProps) => {
 
     if (!formData.name || !formData.password) return;
 
+    setSubmitting(true);
     const res = (
       await axios.post(`${BACKEND_URL}/auth/login`, {
         name: formData.name,
         password: formData.password,
+      }).catch((err) => {
+        console.error(err);
+        setSubmitting(false);
+        return { data: { access_token: "" } };
       })
     ).data as { access_token: string };
 
-    window.localStorage.setItem("token", res.access_token);
-    window.location.href = "/signin";
+    setSubmitting(false);
+
+    if (res.access_token) {
+      window.localStorage.setItem("token", res.access_token);
+      window.location.href = "/signin";
+    }
   };
 
   return (
@@ -82,8 +93,8 @@ const SignInForm = ({ className }: SignInFormProps) => {
         />
 
         {/* Sign In Button */}
-        <Button className="" type="submit" variant="secondary">
-          SIGN IN
+        <Button className="text-white flex justify-center" type="submit" variant="secondary">
+          {submitting ? <CgSpinner className="animate-spin" /> : "SIGN IN"}
         </Button>
       </form>
 

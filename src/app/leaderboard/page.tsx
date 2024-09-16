@@ -12,6 +12,7 @@ import InputBox from "~/components/inputbox";
 import axios from "axios";
 import { BACKEND_URL } from "~/lib/constants";
 import Navbar from "~/components/navbar";
+import { CgSpinner } from "react-icons/cg";
 
 // Define the interface for the leaderboard data
 interface LeaderboardData {
@@ -77,7 +78,7 @@ const LeaderboardPage: React.FC = () => {
       {/* Leaderboard Table */}
       <div className="w-full overflow-x-auto px-32 py-8">
         {loading ? (
-          <div className="text-center">Loading...</div>
+          <div className="text-center"><CgSpinner className="animate-spin text-3xl" /></div>
         ) : error ? (
           <div className="text-center text-red-500">Error: {error}</div>
         ) : (

@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import ChallengeCard, { type ChallengeItem } from "~/components/challengeCard";
 import Navbar from "~/components/navbar";
 import Text from "~/components/text";
@@ -35,6 +36,7 @@ function getTypesFromMask(mask: number) {
 export default function ChallengesPage() {
   const [type, setType] = useState("all");
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
@@ -67,6 +69,10 @@ export default function ChallengesPage() {
           } as unknown as ChallengeData;
         });
         setChallenges(challenges);
+        setLoading(false);
+      }).catch((err) => {
+        console.error(err);
+        setLoading(false);
       });
   }, []);
 
@@ -100,7 +106,7 @@ export default function ChallengesPage() {
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4">
           {challenges.length === 0 && (
             <Text className="text-2xl font-bold" variant="secondary">
-              Not yet started. Check back later!
+              {!loading ? "Not yet started. Check back later!" : <CgSpinner className="text-white text-3xl animate-spin" />}
             </Text>
           )}
           {challenges

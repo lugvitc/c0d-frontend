@@ -9,6 +9,7 @@ import Navbar from "~/components/navbar";
 import { type ChallengeItem } from "~/components/challengeCard";
 import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
 import axios from "axios";
+import { CgSpinner } from "react-icons/cg";
 
 const challengeTypes = [
   "Miscellaneous",
@@ -67,9 +68,11 @@ type StatusType = "on" | "off" | "starting" | "stopping";
 
 const ChallengePage: React.FC = () => {
   const [challenge, setChallenge] = useState<ChallengeData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState<string>("");
   const [response, setResponse] = useState("");
   const [correct, setCorrect] = useState("");
+  const [submiting, setSubmiting] = useState(false);
   const [ports, setPorts] = useState<number[]>([]);
   const [status, setStatus] = useState<StatusType>("off");
 
@@ -78,7 +81,7 @@ const ChallengePage: React.FC = () => {
       window.location.href = "/signin";
       return;
     }
-    
+
     const id = window.localStorage.getItem("challenge");
     void axios
       .get<
@@ -106,6 +109,11 @@ const ChallengePage: React.FC = () => {
           types: getTypesFromMask(data.tags),
         } as unknown as ChallengeData;
         setChallenge(chall);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
       });
   }, []);
 
@@ -118,6 +126,7 @@ const ChallengePage: React.FC = () => {
   };
 
   const startInstance = async () => {
+    setStatus("starting");
     const id = window.localStorage.getItem("challenge");
     const res = (
       await axios.post<{
@@ -142,6 +151,7 @@ const ChallengePage: React.FC = () => {
   };
 
   const stopInstance = async () => {
+    setStatus("stopping");
     const id = window.localStorage.getItem("challenge");
     const res = await axios.post<{
       msg_code: number;
@@ -181,6 +191,7 @@ const ChallengePage: React.FC = () => {
   };
 
   const submitFlag = async () => {
+    setSubmiting(true);
     const id = window.localStorage.getItem("challenge");
     const res = await axios.post<{
       msg_code?: number;
@@ -201,85 +212,107 @@ const ChallengePage: React.FC = () => {
       setCorrect("Invalid flag!");
     }
     if (res.status) setCorrect("Correct flag!");
+    setSubmiting(false);
   };
 
   return (
-    <div className="flex min-h-screen flex-col justify-between p-6">
+    <div className="flex min-h-screen flex-col p-6">
       <Navbar notLanding />
-      <div className="flex min-h-screen justify-between p-6">
-        <div className="flex w-3/5 gap-4 bg-transparent p-6">
-          <div className="mt-2">
-            <IconButton
-              icon={IoIosArrowBack}
-              onClick={() => window.history.back()}
-            />
-          </div>
-          <div className="flex flex-col gap-10">
-            <Text className="text-3xl font-bold" glow="primary">
-              {challenge?.title.toUpperCase() ?? "Loading..."}
-            </Text>
-            <div className="flex flex-col gap-2">
-              <Text className="text-lg" variant="white">
-                {challenge?.description.toUpperCase() ?? "Loading..."}
+      {loading && <CgSpinner className="ml-12 animate-spin text-4xl text-white" />}
+      {!challenge && !loading && (
+        <Text className="ml-12 text-4xl" variant="white">
+          Challenge not found
+        </Text>
+      )}
+      {challenge && (
+        <div className="flex min-h-screen justify-between p-6">
+          <div className="flex w-3/5 gap-4 bg-transparent p-6">
+            <div className="mt-2">
+              <IconButton
+                icon={IoIosArrowBack}
+                onClick={() => window.history.back()}
+              />
+            </div>
+            <div className="flex flex-col gap-10">
+              <Text className="text-3xl font-bold" glow="primary">
+                {challenge?.title.toUpperCase() ?? "Not Found"}
               </Text>
+              <div className="flex flex-col gap-2">
+                <Text className="text-lg" variant="white">
+                  {challenge?.description.toUpperCase() ?? "Not Found"}
+                </Text>
 
-              <div className="mt-2 flex w-full space-x-4">
-                {/* <Text className="text-base" variant="white">
+                <div className="mt-2 flex w-full space-x-4">
+                  {/* <Text className="text-base" variant="white">
                   EASY
                 </Text> */}
-                <Text className="text-base" variant="white">
-                  {challenge?.points ?? 0} POINTS
-                </Text>
-                {/* <Text className="text-base" variant="white">
+                  <Text className="text-base" variant="white">
+                    {challenge?.points ?? 0} POINTS
+                  </Text>
+                  {/* <Text className="text-base" variant="white">
                   SOLVED COUNT
                 </Text> */}
-              </div>
-              <Text className="text-sm" variant="secondary">
-                {response}
-              </Text>
-            </div>
-
-            {ports.map((port) => (
-              <div key={port} className="flex gap-4">
-                <Text className="text-lg font-bold">
-                  {CHALLENGE_IP}:{port}
+                </div>
+                <Text className="text-sm" variant="secondary">
+                  {response}
                 </Text>
               </div>
-            ))}
 
-            {status === "on" ? (
-              <Button className="w-1/2 min-w-fit" onClick={stopInstance}>
-                STOP INSTANCE
-              </Button>
-            ) : (
-              <Button className="w-1/2 min-w-fit" onClick={startInstance}>
-                START INSTANCE
-              </Button>
-            )}
+              {ports.map((port) => (
+                <div key={port} className="flex gap-4">
+                  <Text className="text-lg font-bold">
+                    {CHALLENGE_IP}:{port}
+                  </Text>
+                </div>
+              ))}
 
-            <div className="flex flex-col gap-4">
-              <Text className="ml-2 text-xl">{correct}</Text>
-              <div className="flex items-center space-x-8">
-                <InputBox
-                  className="rounded-2xl border-2 p-4"
-                  variant="secondary"
-                  placeholder="Flag"
-                  onChange={(v) => setFlag(v.target.value)}
-                />
-                <Button variant="secondary" onClick={submitFlag}>
-                  SUBMIT
-                </Button>
+              <div className="flex gap-2">
+                {status === "on" ? (
+                  <Button className="w-1/2 min-w-fit" onClick={stopInstance}>
+                    STOP INSTANCE
+                  </Button>
+                ) : (
+                  <Button className="w-1/2 min-w-fit" onClick={startInstance}>
+                    START INSTANCE
+                  </Button>
+                )}
+                {(status === "starting" || status === "stopping") && (
+                  <CgSpinner className="animate-spin text-2xl" />
+                )}
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <Text className="ml-2 text-xl">{correct}</Text>
+                <div className="flex items-center space-x-8">
+                  <InputBox
+                    className="rounded-2xl border-2 p-4"
+                    variant="secondary"
+                    placeholder="Flag"
+                    onChange={(v) => setFlag(v.target.value)}
+                  />
+                  <Button
+                    className="flex justify-center"
+                    variant="secondary"
+                    onClick={submitFlag}
+                  >
+                    {submiting ? (
+                      <CgSpinner className="animate-spin text-2xl" />
+                    ) : (
+                      "SUBMIT"
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex w-1/4 items-start justify-end p-6">
-          <Button variant="secondary" onClick={killAll}>
-            KILL ALL
-          </Button>
+          <div className="flex w-1/4 items-start justify-end p-6">
+            <Button variant="secondary" onClick={killAll}>
+              KILL ALL
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
