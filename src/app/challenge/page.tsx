@@ -51,6 +51,7 @@ const msgCodes = [
 
 interface ChallengeData extends ChallengeItem {
   id: string;
+  description: string;
 }
 
 function getTypesFromMask(mask: number) {
