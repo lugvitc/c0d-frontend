@@ -339,7 +339,7 @@ const ChallengePage: React.FC = () => {
               </Text>
               <div className="flex flex-col gap-2">
                 <Text className="text-lg" variant="white">
-                  {challenge?.description.toUpperCase() ?? "Not Found"}
+                  {challenge?.description ?? "Not Found"}
                 </Text>
 
                 <div className="mt-2 flex w-full space-x-4">
