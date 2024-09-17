@@ -11,6 +11,7 @@ import { BACKEND_URL, CHALLENGE_IP } from "~/lib/constants";
 import axios from "axios";
 import { CgSpinner } from "react-icons/cg";
 import { useToast } from "~/components/hooks/use-toast";
+import { BiCopy } from "react-icons/bi";
 
 const challengeTypes = [
   "Miscellaneous",
@@ -171,6 +172,8 @@ const ChallengePage: React.FC = () => {
     if (res.msg_code === 3) {
       setPorts(res.ports);
       setStatus("on");
+    } else {
+      setStatus("off");
     }
   };
 
@@ -202,6 +205,8 @@ const ChallengePage: React.FC = () => {
     if (res.data.msg_code === 4 || res.data.msg_code === 6) {
       setPorts([]);
       setStatus("off");
+    } else {
+      setStatus("on");
     }
   };
 
@@ -317,10 +322,24 @@ const ChallengePage: React.FC = () => {
               </div>
 
               {ports.map((port) => (
-                <div key={port} className="flex gap-4">
+                <div key={port} className="flex items-center justify-centers gap-4">
                   <Text className="text-lg font-bold">
                     {CHALLENGE_IP}:{port}
                   </Text>
+                  <Button
+                    className="py-2 px-4"
+                    onClick={() => {
+                      void navigator.clipboard.writeText(`${CHALLENGE_IP}:${port}`);
+                      toast({
+                        title: "Copied",
+                        description: "Copied to clipboard",
+                        duration: 5000,
+                      });
+                    }}
+                  >
+                    <BiCopy className="text-white text-2xl" />
+                  </Button>
+
                 </div>
               ))}
 
