@@ -37,8 +37,35 @@ function getTypesFromMask(mask: number) {
 export default function ChallengesPage() {
   const [type, setType] = useState("all");
   const [challenges, setChallenges] = useState<ChallengeData[]>([]);
+  const [solved, setSolved] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+
+  const checkSolved = async () => {
+    await axios
+      .get(`${BACKEND_URL}/ctf/completed`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const data = res.data as {
+          id: string;
+        }[];
+        const all = [];
+        for (const item of data) {
+          all.push(item.id);
+        }
+        setSolved(all);
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to check if challenge is solved",
+          duration: 5000,
+        });
+      });
+  };
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
@@ -57,7 +84,7 @@ export default function ChallengesPage() {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
         const data = res.data as {
           id: string;
           name: string;
@@ -76,6 +103,7 @@ export default function ChallengesPage() {
           } as unknown as ChallengeData;
         });
         setChallenges(challenges);
+        await checkSolved();
         setLoading(false);
       })
       .catch(() => {
@@ -139,6 +167,7 @@ export default function ChallengesPage() {
               types={challenge.types}
               // description={challenge.description}
               points={challenge.points}
+              solved={solved.includes(challenge.id)}
               // solves={challenge.solves}
               onClick={() => setChallenge(challenge.id)}
             />
