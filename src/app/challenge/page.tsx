@@ -81,20 +81,23 @@ const ChallengePage: React.FC = () => {
   const { toast } = useToast();
 
   const containerDetails = async (id: string | null) => {
-    await axios.get<Record<string, number[]>>(`${BACKEND_URL}/team/containers`, {
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem("token")}`
-      }
-    }).then((res) => {
-      if (!(id && res.data[id])) {
-        return;
-      }
-      setPorts(res.data[id]);
-      setStatus("on");
-    }).catch((err) => {
-      console.error(err);
-    });
-  }
+    await axios
+      .get<Record<string, number[]>>(`${BACKEND_URL}/team/containers`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        if (!id) {
+          return;
+        }
+        setPorts(res.data[id] ?? []);
+        setStatus((res.data[id] && res.data[id].length > 0) ? "on" : "off");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
@@ -264,6 +267,7 @@ const ChallengePage: React.FC = () => {
       .post<{
         msg_code?: number;
         status?: boolean;
+        already?: boolean;
       }>(
         `${BACKEND_URL}/ctf/${id}/flag`,
         {
@@ -275,20 +279,36 @@ const ChallengePage: React.FC = () => {
           },
         },
       )
-      .catch((err) => {
-        console.error(err);
-        toast({
-          title: "Error",
-          description: "Failed to submit flag",
-          duration: 5000,
-        });
-        return { data: { status: false } };
-      });
-    if (!res.data.status) {
-      setCorrect("Invalid flag!");
-    }
-    if (res.data.status) {
-      setCorrect("Correct flag!");
+      .catch(
+        (err: {
+          response: {
+            data: {
+              msg_code: number;
+            };
+          };
+        }) => {
+          console.error(err);
+          if (err.response.data.msg_code !== 12)
+            toast({
+              title: "Error",
+              description: "Failed to submit flag",
+              duration: 5000,
+            });
+          return {
+            data: { status: false, msg_code: err.response.data.msg_code },
+          };
+        },
+      );
+    if (res.data.msg_code === 12) {
+      setCorrect("Flag already submitted!");
+    } else {
+      if (!res.data.status) {
+        setCorrect("Invalid flag!");
+      }
+      if (res.data.status) {
+        setCorrect("Correct flag!");
+        void containerDetails(id);
+      }
     }
     setSubmiting(false);
   };
