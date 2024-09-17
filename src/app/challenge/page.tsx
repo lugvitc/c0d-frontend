@@ -80,6 +80,22 @@ const ChallengePage: React.FC = () => {
   const [status, setStatus] = useState<StatusType>("off");
   const { toast } = useToast();
 
+  const containerDetails = async (id: string | null) => {
+    await axios.get<Record<string, number[]>>(`${BACKEND_URL}/team/containers`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`
+      }
+    }).then((res) => {
+      if (!(id && res.data[id])) {
+        return;
+      }
+      setPorts(res.data[id]);
+      setStatus("on");
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
       window.location.href = "/signin";
@@ -108,7 +124,7 @@ const ChallengePage: React.FC = () => {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then(async (res) => {
         const data = res.data[0];
         if (!data) return;
         const chall = {
@@ -119,6 +135,7 @@ const ChallengePage: React.FC = () => {
           types: getTypesFromMask(data.tags),
         } as unknown as ChallengeData;
         setChallenge(chall);
+        await containerDetails(id);
         setLoading(false);
       })
       .catch((err) => {
