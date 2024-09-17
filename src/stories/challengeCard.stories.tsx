@@ -15,11 +15,11 @@ const meta: Meta<typeof challengeCard> = {
         type: "select",
       },
     },
-    description: {
-      control: {
-        type: "select",
-      },
-    },
+    // description: {
+    //   control: {
+    //     type: "select",
+    //   },
+    // },
     points: {
       control: {
         type: "select",
@@ -44,8 +44,8 @@ type Story = StoryObj<typeof challengeCard>;
 export const Card: Story = {
   args: {
     title: "CHALLENGE TITLE",
-    // type: "TYPE",
-    description: "CHALLENGE DESCRIPTION",
+    types: ["Web"],
+    // description: "CHALLENGE DESCRIPTION",
     // difficulty: "EASY",
     points: 100,
     // solves: 3,
