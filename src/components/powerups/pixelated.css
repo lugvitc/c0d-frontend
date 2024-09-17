@@ -1,0 +1,31 @@
+@keyframes gradient {
+    0% {
+      color: #fcfe04;
+    }
+    16% {
+      color: #fc6604;
+    }
+    32% {
+      color: #d11618;
+    }
+    48% {
+      color: #6d186e;
+    }
+    64% {
+      color: #25267b;
+    }
+    80% {
+      color: #349904;
+    }
+    100% {
+      color: #fcfe04;
+    }
+  }
+  
+  .animate-gradient {
+    animation: gradient 0.65s infinite;
+  }
+
+  .hover-gradient-bg:hover {
+    animation: gradient 2s infinite;
+  }

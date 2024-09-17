@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
@@ -7,6 +8,7 @@ import { useToast } from "~/components/hooks/use-toast";
 import Navbar from "~/components/navbar";
 import Text from "~/components/text";
 import { BACKEND_URL } from "~/lib/constants";
+import PowerupPanel from "~/components/powerups/powerup-panel";
 
 const challengeTypes = [
   "Miscellaneous",
@@ -41,15 +43,15 @@ export default function ChallengesPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!window.localStorage.getItem("token")) {
-      window.location.href = "/signin";
-      toast({
-        title: "Error",
-        description: "You need to be signed in to view this page",
-        duration: 5000,
-      });
-      return;
-    }
+    // if (!window.localStorage.getItem("token")) {
+    //   window.location.href = "/signin";
+    //   toast({
+    //     title: "Error",
+    //     description: "You need to be signed in to view this page",
+    //     duration: 5000,
+    //   });
+    //   return;
+    // }
 
     void axios
       .get(`${BACKEND_URL}/ctf/list`, {
@@ -87,7 +89,7 @@ export default function ChallengesPage() {
         setLoading(false);
       });
   }, [toast]);
-
+  
   const setChallenge = (id: string) => {
     window.localStorage.setItem("challenge", id);
     window.location.href = `/challenge`;
@@ -115,6 +117,7 @@ export default function ChallengesPage() {
             ))}
           </select>
         </div>
+          <PowerupPanel children={undefined} />
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4">
           {challenges.length === 0 && (
             <Text className="text-2xl font-bold" variant="secondary">
@@ -128,12 +131,12 @@ export default function ChallengesPage() {
           {(type === "all"
             ? challenges
             : challenges.filter((c) =>
-                c.types.some((v) =>
+              c.types.some((v) =>
                   v.toLowerCase().includes(type.toLowerCase()),
                 ),
               )
-          ).map((challenge, index) => (
-            <ChallengeCard
+            ).map((challenge, index) => (
+              <ChallengeCard
               key={index}
               title={challenge.title}
               types={challenge.types}
@@ -141,8 +144,8 @@ export default function ChallengesPage() {
               points={challenge.points}
               // solves={challenge.solves}
               onClick={() => setChallenge(challenge.id)}
-            />
-          ))}
+              />
+            ))}
         </div>
       </div>
     </div>

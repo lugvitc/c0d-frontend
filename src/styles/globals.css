@@ -6,6 +6,10 @@
   font-family: "Orbitron";
   src: url("../../public/fonts/orbitron.ttf");
 }
+@font-face {
+  font-family: "Home Video";
+  src: url("../../public/fonts/homevideo.TTF");
+}
 
 html {
   scroll-behavior: smooth;
