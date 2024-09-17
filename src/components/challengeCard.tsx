@@ -7,7 +7,7 @@ import React, { type HTMLAttributes } from "react";
 export interface ChallengeItem {
   title: string;
   types: string[];
-  description: string;
+  // description: string;
   points: number;
   // solves: number;
 }
@@ -20,7 +20,7 @@ interface ChallengeProps
 const ChallengeCard: React.FC<ChallengeProps> = ({
   title,
   types,
-  description,
+  // description,
   points,
   ...other
 }) => {
@@ -44,9 +44,9 @@ const ChallengeCard: React.FC<ChallengeProps> = ({
         <Text className="mt-2 text-xl font-bold" variant="white" glow="none">
           {points}
         </Text>
-        <Text className="mt-4 text-lg" variant="white" glow="none">
+        {/* <Text className="mt-4 text-lg" variant="white" glow="none">
           {description}
-        </Text>
+        </Text> */}
         {/* <Text className="mt-4 text-sm font-bold" variant="white" glow="none">
           SOLVED TIMES {solves}
         </Text> */}

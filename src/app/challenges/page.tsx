@@ -137,7 +137,7 @@ export default function ChallengesPage() {
               key={index}
               title={challenge.title}
               types={challenge.types}
-              description={challenge.description}
+              // description={challenge.description}
               points={challenge.points}
               // solves={challenge.solves}
               onClick={() => setChallenge(challenge.id)}
