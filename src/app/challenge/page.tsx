@@ -171,6 +171,8 @@ const ChallengePage: React.FC = () => {
     if (res.msg_code === 3) {
       setPorts(res.ports);
       setStatus("on");
+    } else {
+      setStatus("off");
     }
   };
 
@@ -202,6 +204,8 @@ const ChallengePage: React.FC = () => {
     if (res.data.msg_code === 4 || res.data.msg_code === 6) {
       setPorts([]);
       setStatus("off");
+    } else {
+      setStatus("on");
     }
   };
 
