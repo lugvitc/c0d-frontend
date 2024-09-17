@@ -20,6 +20,7 @@ const SignInForm = ({ className }: SignInFormProps) => {
     password: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [justRegistered, setJustRegistered] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -32,6 +33,12 @@ const SignInForm = ({ className }: SignInFormProps) => {
         description: "You are signed in",
         duration: 5000,
       });
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const reg = urlParams.get("reg");
+    if (reg === "true") {
+      setJustRegistered(true);
     }
   }, [toast]);
 
@@ -81,6 +88,12 @@ const SignInForm = ({ className }: SignInFormProps) => {
         className,
       )}
     >
+      {/* Just Registered Toast */}
+      {justRegistered && (
+        <Text className="text-sm" variant="white">
+          You have successfully registered. Please sign in.
+        </Text>
+      )}
       {/* Sign In Header */}
       <Text className="text-4xl font-bold" variant="primary" glow="primary">
         SIGN IN
