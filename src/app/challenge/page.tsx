@@ -136,7 +136,7 @@ const ChallengePage: React.FC = () => {
     setResponse(msgCodes[msgCode] ?? "");
     setTimeout(() => {
       setResponse("");
-    }, 2000);
+    }, 5000);
   };
 
   const startInstance = async () => {
