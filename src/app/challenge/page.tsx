@@ -53,6 +53,7 @@ const msgCodes = [
 interface ChallengeData extends ChallengeItem {
   id: string;
   description: string;
+  author: string;
 }
 
 function getTypesFromMask(mask: number) {
@@ -134,6 +135,7 @@ const ChallengePage: React.FC = () => {
           id: data.id,
           title: data.name,
           description: data.description,
+          author: data.author,
           points: data.points,
           types: getTypesFromMask(data.tags),
         } as unknown as ChallengeData;
@@ -342,12 +344,15 @@ const ChallengePage: React.FC = () => {
                   {challenge?.description ?? "Not Found"}
                 </Text>
 
-                <div className="mt-2 flex w-full space-x-4">
+                <div className="mt-2 flex flex-col w-full gap-4">
                   {/* <Text className="text-base" variant="white">
                   EASY
                 </Text> */}
                   <Text className="text-base" variant="white">
                     {challenge?.points ?? 0} POINTS
+                  </Text>
+                  <Text className="text-base" variant="white">
+                    Author: {challenge.author}
                   </Text>
                   {/* <Text className="text-base" variant="white">
                   SOLVED COUNT
