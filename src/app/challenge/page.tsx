@@ -322,14 +322,19 @@ const ChallengePage: React.FC = () => {
               </div>
 
               {ports.map((port) => (
-                <div key={port} className="flex items-center justify-centers gap-4">
+                <div
+                  key={port}
+                  className="justify-centers flex items-center gap-4"
+                >
                   <Text className="text-lg font-bold">
                     {CHALLENGE_IP}:{port}
                   </Text>
                   <Button
-                    className="py-2 px-4"
+                    className="px-4 py-2"
                     onClick={() => {
-                      void navigator.clipboard.writeText(`${CHALLENGE_IP}:${port}`);
+                      void navigator.clipboard.writeText(
+                        `${CHALLENGE_IP}:${port}`,
+                      );
                       toast({
                         title: "Copied",
                         description: "Copied to clipboard",
@@ -337,9 +342,8 @@ const ChallengePage: React.FC = () => {
                       });
                     }}
                   >
-                    <BiCopy className="text-white text-2xl" />
+                    <BiCopy className="text-2xl text-white" />
                   </Button>
-
                 </div>
               ))}
 
@@ -350,7 +354,11 @@ const ChallengePage: React.FC = () => {
                   </Button>
                 ) : (
                   <Button className="w-1/2 min-w-fit" onClick={startInstance}>
-                    START INSTANCE
+                    {status === "starting"
+                      ? "Loading..."
+                      : status === "stopping"
+                        ? "Loading..."
+                        : "START INSTANCE"}
                   </Button>
                 )}
                 {(status === "starting" || status === "stopping") && (
