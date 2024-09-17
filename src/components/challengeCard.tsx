@@ -3,12 +3,14 @@ import Text from "~/components/text";
 import { BsNut } from "react-icons/bs";
 
 import React, { type HTMLAttributes } from "react";
+import { cn } from "~/lib/utils";
 
 export interface ChallengeItem {
   title: string;
   types: string[];
   // description: string;
   points: number;
+  solved?: boolean;
   // solves: number;
 }
 
@@ -22,12 +24,16 @@ const ChallengeCard: React.FC<ChallengeProps> = ({
   types,
   // description,
   points,
+  solved = false,
   ...other
 }) => {
   return (
     <div
       {...other}
-      className={`transition-bg mb-5 cursor-pointer rounded-lg bg-[#2D2D2D80] p-6 duration-200 ease-in-out hover:border-2 hover:border-[#ff0000] hover:shadow-sm hover:shadow-[#ff0000]`}
+      className={cn(
+        `transition-bg mb-5 cursor-pointer rounded-lg bg-[#2D2D2D80] p-6 duration-200 ease-in-out hover:border-2 hover:border-[#ff0000] hover:shadow-sm hover:shadow-[#ff0000]`,
+        solved ? "border border-green-500" : "",
+      )}
     >
       <div className="flex flex-col">
         <BsNut size={52} className="rotate-90 text-white" />
