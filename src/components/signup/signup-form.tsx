@@ -85,14 +85,18 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
             duration: 5000,
           });
           setSubmitting(false);
-          return { data: { access_token: "" } };
+          return { data: { access_token: "", msg_code: -1 } };
         })
-    ).data as { access_token: string };
+    ).data as { access_token: string, msg_code: number };
     setSubmitting(false);
 
     if (res.access_token) {
       window.localStorage.setItem("token", res.access_token);
       window.location.href = "/signup";
+    }
+
+    if (res.msg_code === 13) {
+      window.location.href = "/signin?reg=true";
     }
   };
 
