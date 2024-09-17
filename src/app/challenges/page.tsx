@@ -169,7 +169,7 @@ export default function ChallengesPage() {
               points={challenge.points}
               solved={solved.includes(challenge.id)}
               // solves={challenge.solves}
-              onClick={() => setChallenge(challenge.id)}
+              onClick={solved.includes(challenge.id) ? undefined : () => setChallenge(challenge.id)}
             />
           ))}
         </div>
