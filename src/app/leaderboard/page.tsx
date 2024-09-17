@@ -21,6 +21,8 @@ interface LeaderboardData {
   tpoints: number;
 }
 
+const explicitForce = false;
+
 const LeaderboardPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([]);
@@ -42,6 +44,26 @@ const LeaderboardPage: React.FC = () => {
     const fetchLeaderboardData = async () => {
       try {
         setLoading(true);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const force = urlParams.get("force");
+        if (explicitForce && force !== "true") {
+          setLeaderboardData([{
+            name: "YOU",
+            tpoints: 404
+          }, {
+            name: "H4V3",
+            tpoints: 1337
+          }, {
+            name: "B33N",
+            tpoints: 1337
+          }, {
+            name: "PWN3D",
+            tpoints: 404
+          }]);
+          return;
+        }
+
         const response = await axios.get(`${BACKEND_URL}/leaderboard`, {
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem("token")}`,
