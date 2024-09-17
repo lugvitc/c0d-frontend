@@ -96,7 +96,7 @@ export default function Navbar({ notLanding = false }: NavbarProps) {
             LEADERBOARD
           </LinkButton>
         )}
-        {notLanding && (
+        {(
           <LinkButton href="/signin" variant="primary" onClick={handleSign}>
             {isSignedIn ? "SIGNOUT" : "SIGNIN"}
           </LinkButton>
@@ -143,7 +143,7 @@ export default function Navbar({ notLanding = false }: NavbarProps) {
               LEADERBOARD
             </LinkButton>
           )}
-          {notLanding && (
+          {(
             <LinkButton
               href="/signin"
               variant="primary"
