@@ -17,16 +17,10 @@ const dates = [
         by: "BY C0D TEAM",
       },
       {
-        time: "09:00 TO 10:00",
+        time: "09:00 TO 11:00",
         type: "WORKSHOP",
         title: "LINUX BASICS + FORENSICS",
         by: "BY SAMAR SINGH",
-      },
-      {
-        time: "10:00 TO 11:00",
-        type: "[R3D4CT3D]",
-        title: "S3CR3T",
-        by: "BY [W1THH3LD]",
       },
       {
         time: "11:00 TO 12:00",
