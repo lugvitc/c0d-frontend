@@ -21,7 +21,7 @@ interface LeaderboardData {
   tpoints: number;
 }
 
-const explicitForce = false;
+const explicitForce = true;
 
 const LeaderboardPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
